@@ -1,6 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, updateProfile, getIdToken, signOut } from "firebase/auth";
 
 import { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import initializeAuthentication from '../Firebase/firebase.init';
 
 initializeAuthentication();
@@ -13,10 +14,13 @@ const useFirebase = () => {
 
     const auth = getAuth();
 
-    const registerUser = (email, password, name, history) => {
+    
+
+    const registerUser = (email, password, name,history) => {
         setIsLoading(true);
-        createUserWithEmailAndPassword(auth, email, password)
+        createUserWithEmailAndPassword(auth, email, password,history)
             .then((userCredential) => {
+                history.replace('/choose');
                 setAuthError('');
                 const newUser = { email, displayName: name };
                 setUser(newUser);
@@ -28,7 +32,6 @@ const useFirebase = () => {
                 }).then(() => {
                 }).catch((error) => {
                 });
-                history.replace('/');
             })
             .catch((error) => {
                 setAuthError(error.message);
@@ -37,12 +40,11 @@ const useFirebase = () => {
             .finally(() => setIsLoading(false));
     }
 
-    const loginUser = (email, password, location, history) => {
+    const loginUser = (email, password,history) => {
         setIsLoading(true);
-        signInWithEmailAndPassword(auth, email, password)
+        signInWithEmailAndPassword(auth, email, password,history)
             .then((userCredential) => {
-                const destination = location?.state?.from || '/';
-                history.replace(destination);
+                history.replace('/choose');
                 setAuthError('');
             })
             .catch((error) => {
@@ -52,18 +54,19 @@ const useFirebase = () => {
     }
     const googleProvider = new GoogleAuthProvider();
     
-    const signInUsingGoogle =(location, history) => {
+    const signInUsingGoogle =(history) => {
         setIsLoading(true);
         signInWithPopup(auth, googleProvider)
             .then((result) => {
                 const user = result.user;
                 saveUser(user.email, user.displayName, 'PUT');
+                
                 setAuthError('');
-                const destination = location?.state?.from || '/';
-                history.replace(destination);
+                
             }).catch((error) => {
                 setAuthError(error.message);
             }).finally(() => setIsLoading(false));
+            history.push('/choose');
     }
     // observe user state change
     useEffect(() => {
@@ -81,13 +84,14 @@ const useFirebase = () => {
 
     const logOut = () => {
         setIsLoading(true);
+        console.log(user.displayName);
         signOut(auth)
             .then(() => { })
             .finally(() => setIsLoading(false));
     }
     const saveUser = (email, displayName, method) => {
         const user = { email, displayName };
-        fetch('https://hidden-mountain-15974.hero.com/users', {
+        fetch('http://localhost:5000/users', {
             method: method,
             headers: {
                 'content-type': 'application/json'
@@ -97,11 +101,11 @@ const useFirebase = () => {
             .then()
     }
 
-    useEffect(() => {
-        fetch(`https://hidden-mountain-15974.herokuapp.com/users/${user.email}`)
-            .then(res => res.json())
-            .then(data => setAdmin(data.admin))
-    }, [user.email])
+    // useEffect(() => {
+    //     fetch(`https://hidden-mountain-15974.herokuapp.com/users/${user.email}`)
+    //         .then(res => res.json())
+    //         .then(data => setAdmin(data.admin))
+    // }, [user.email])
 
     return {
         user,
