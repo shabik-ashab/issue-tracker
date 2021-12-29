@@ -1,6 +1,6 @@
 import { TextField, Button, CircularProgress, Alert,Typography, Container } from "@mui/material";
 import Grid from '@mui/material/Grid';
-import { Link, useLocation, useHistory, NavLink } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import React, { useState } from "react";
 import useAuth from '../hooks/useAuth';
 import login from '../images/hero.svg'

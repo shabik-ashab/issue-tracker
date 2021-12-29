@@ -1,7 +1,7 @@
 import { Container, Typography, TextField, Button, CircularProgress, Alert } from '@mui/material';
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
-import { NavLink, useLocation, useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import login from '../images/hero.svg'
 
@@ -24,9 +24,9 @@ const Login = () => {
         e.preventDefault();
     }
 
-    const handleGoogleSignIn = (history) => {
-        signInUsingGoogle(history)
-    }
+    // const handleGoogleSignIn = (history) => {
+    //     signInUsingGoogle(history)
+    // }
     return (
         <Container>
         <Grid container spacing={2}>
@@ -60,7 +60,7 @@ const Login = () => {
                     {authError && <Alert severity="error">{authError}</Alert>}
                 </form>
                 <p>------------------------</p>
-                <Button onClick={handleGoogleSignIn} variant="contained">Google Sign In</Button>
+                <Button onClick={()=>signInUsingGoogle(history)} variant="contained">Google Sign In</Button>
                 
             </Grid>
             <Grid item xs={12} md={6}>

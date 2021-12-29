@@ -1,7 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, updateProfile, getIdToken, signOut } from "firebase/auth";
 
 import { useState, useEffect } from 'react';
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import initializeAuthentication from '../Firebase/firebase.init';
 
 initializeAuthentication();
@@ -15,7 +14,6 @@ const useFirebase = () => {
     const auth = getAuth();
 
     
-
     const registerUser = (email, password, name,history) => {
         setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password,history)

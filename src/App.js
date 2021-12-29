@@ -9,6 +9,7 @@ import AuthProvider from './contexts/AuthProvider';
 import Register from './Components/Register';
 import Login from './Components/Login';
 import Choose from './Components/Choose';
+import Header from './Components/Header';
 
 function App() {
   
@@ -16,6 +17,7 @@ function App() {
     <>
     <AuthProvider>
     <Router>
+      <Header />
       <Switch>
         <Route exact path="/">
           <Login />
