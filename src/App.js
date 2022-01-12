@@ -10,6 +10,7 @@ import Register from './Components/Register';
 import Login from './Components/Login';
 import Choose from './Components/Choose';
 import Header from './Components/Header';
+import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 
 function App() {
   
@@ -22,15 +23,15 @@ function App() {
         <Route exact path="/">
           <Login />
         </Route>
-        <Route path="/register">
+        <Route exact path="/register">
           <Register />
         </Route>
-        <Route path="/login">
+        <Route exact path="/login">
           <Login />
         </Route>
-        <Route path="/choose"> 
+        <PrivateRoute exact path="/choose"> 
           <Choose />
-        </Route>
+        </PrivateRoute>
       </Switch>
     </Router>
     </AuthProvider>

@@ -10,6 +10,7 @@ const useFirebase = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [admin, setAdmin] = useState(false);
     const [authError, setAuthError] = useState('');
+    const [users,setUsers]  = useState([]);
 
     const auth = getAuth();
 
@@ -18,7 +19,7 @@ const useFirebase = () => {
         setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password,history)
             .then((userCredential) => {
-                history.replace('/choose');
+                
                 setAuthError('');
                 const newUser = { email, displayName: name };
                 setUser(newUser);
@@ -30,12 +31,15 @@ const useFirebase = () => {
                 }).then(() => {
                 }).catch((error) => {
                 });
+                
             })
             .catch((error) => {
                 setAuthError(error.message);
                 console.log(error);
             })
-            .finally(() => setIsLoading(false));
+            .finally(() => setIsLoading(false),
+            history.replace('/choose')
+            );
     }
 
     const loginUser = (email, password,history) => {
@@ -58,13 +62,13 @@ const useFirebase = () => {
             .then((result) => {
                 const user = result.user;
                 saveUser(user.email, user.displayName, 'PUT');
-                
+                history.replace('/choose');
                 setAuthError('');
                 
             }).catch((error) => {
                 setAuthError(error.message);
             }).finally(() => setIsLoading(false));
-            history.push('/choose');
+           
     }
     // observe user state change
     useEffect(() => {
@@ -80,11 +84,13 @@ const useFirebase = () => {
         return () => unsubscribed;
     }, [])
 
-    const logOut = () => {
+    const logOut = (history) => {
         setIsLoading(true);
         console.log(user.displayName);
         signOut(auth)
-            .then(() => { })
+            .then(() => {
+                history.replace('/');
+             })
             .finally(() => setIsLoading(false));
     }
     const saveUser = (email, displayName, method) => {
@@ -99,6 +105,14 @@ const useFirebase = () => {
             .then()
     }
 
+    useEffect(() => {
+        fetch('http://localhost:5000/users') 
+        .then((res) => res.json())
+          .then((data) => {
+            setUsers(data);
+          });
+      }, [])
+
     // useEffect(() => {
     //     fetch(`https://hidden-mountain-15974.herokuapp.com/users/${user.email}`)
     //         .then(res => res.json())
@@ -107,6 +121,7 @@ const useFirebase = () => {
 
     return {
         user,
+        users,
         isLoading,
         admin,
         signInUsingGoogle,

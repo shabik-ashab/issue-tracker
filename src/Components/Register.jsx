@@ -10,13 +10,9 @@ const Register = () => {
   
     const {  registerUser, isLoading, authError, user } =
       useAuth();
-    const {signInUsingGoogle} = useAuth();
 
     const history = useHistory();
   
-    const handleGoogleLogin = (history) => {
-      signInUsingGoogle(history)
-    };
     const handleOnBlur = (e) => {
       const field = e.target.name;
       const value = e.target.value;
