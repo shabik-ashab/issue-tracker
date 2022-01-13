@@ -9,8 +9,8 @@ import AuthProvider from './contexts/AuthProvider';
 import Register from './Components/Register';
 import Login from './Components/Login';
 import Choose from './Components/Choose';
-import Header from './Components/Header';
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
+import ResponsiveDrawer from './Components/Dashboard/ResponsiveDrawer';
 
 function App() {
   
@@ -18,7 +18,6 @@ function App() {
     <>
     <AuthProvider>
     <Router>
-      <Header />
       <Switch>
         <Route exact path="/">
           <Login />
@@ -32,6 +31,11 @@ function App() {
         <PrivateRoute exact path="/choose"> 
           <Choose />
         </PrivateRoute>
+        <Route exact path="/login">
+          <Login />
+        </Route><Route  path="/dash">
+          <ResponsiveDrawer />
+        </Route>
       </Switch>
     </Router>
     </AuthProvider>

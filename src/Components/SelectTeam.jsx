@@ -41,6 +41,7 @@ export default function SelectTeam(props) {
             .then(data => {
                 if (data.modifiedCount) {
                     console.log(data);
+                    history.push('/dash')
                     // setSuccess(true);
                 }
             })

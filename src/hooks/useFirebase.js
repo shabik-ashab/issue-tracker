@@ -111,7 +111,7 @@ const useFirebase = () => {
           .then((data) => {
             setUsers(data);
           });
-      }, [])
+      }, [user.email])
 
     // useEffect(() => {
     //     fetch(`https://hidden-mountain-15974.herokuapp.com/users/${user.email}`)

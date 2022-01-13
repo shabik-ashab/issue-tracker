@@ -10,6 +10,7 @@ import Select from "@mui/material/Select";
 import { useHistory } from "react-router-dom";
 import core from '../images/core.svg'
 import SelectTeam from "./SelectTeam";
+import Header from "./Header";
 
 const Choose = () => {
   const { logOut, user,isLoading } = useAuth();
@@ -56,80 +57,82 @@ const Choose = () => {
   
   // console.log(success);
   return (
+    <>
+     <Header/>
     <Container>
-
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-        <Typography variant="h4">
-                Please select your role, {user.displayName}
-            </Typography>
-            {
-              !success && <Box sx={{ width: 220, mt: 6 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={role}
-                  label="Age"
-                  onChange={handleChange}
-                  name="role"
-                   onBlur={handleOnBlur}
-                >
-                  <MenuItem value={"manager"}>Project manager</MenuItem>
-                  <MenuItem value={"dev"}>Developer</MenuItem>
-                </Select>
-                {
-                  role == "manager" && 
-                  <Box sx={{mt:3}}>
-                    <Typography>
-                    Create a team
-                  </Typography>
-                  <TextField
-                   required
-                     id="filled-required"
-                    label="Required"
-                   variant="filled"
-                   name="team"
-                   onBlur={handleOnBlur}
-                  />
-                  <Box sx={{ flexDirection: 'row',mt:3 }}>
-                <Button sx={{mr:2 }} onClick={handleTeamConfirm} variant="contained">
-              confirm
-            </Button>
-            <Button onClick={()=>logOut(history)} variant="contained">
-              logout
-            </Button>
-            </Box>
-                  </Box>
-                  
-                }
-                {
-                  role == "dev" &&
-                  <Box sx={{mt:3}}>
-                    <Typography>
-                    choose a team
-                  </Typography>
-                  <SelectTeam
-                  loginData = {loginData}
-                  />
-                  </Box>
-                }
-                
-              </FormControl>
-              {isLoading && <CircularProgress />}
-            </Box>
-            }
-        </Grid>
-        <Grid item xs={6}>
-        <Box className="core-img">
-          <img src={core} />
-        </Box>
-          
-          
-        </Grid>
-      </Grid>
-    </Container>
+     <Grid container spacing={2}>
+       <Grid item xs={6}>
+       <Typography variant="h4">
+               Please select your role, {user.displayName}
+           </Typography>
+           {
+             !success && <Box sx={{ width: 220, mt: 6 }}>
+             <FormControl fullWidth>
+               <InputLabel id="demo-simple-select-label">Role</InputLabel>
+               <Select
+                 labelId="demo-simple-select-label"
+                 id="demo-simple-select"
+                 value={role}
+                 label="Age"
+                 onChange={handleChange}
+                 name="role"
+                  onBlur={handleOnBlur}
+               >
+                 <MenuItem value={"manager"}>Project manager</MenuItem>
+                 <MenuItem value={"dev"}>Developer</MenuItem>
+               </Select>
+               {
+                 role == "manager" && 
+                 <Box sx={{mt:3}}>
+                   <Typography>
+                   Create a team
+                 </Typography>
+                 <TextField
+                  required
+                    id="filled-required"
+                   label="Required"
+                  variant="filled"
+                  name="team"
+                  onBlur={handleOnBlur}
+                 />
+                 <Box sx={{ flexDirection: 'row',mt:3 }}>
+               <Button sx={{mr:2 }} onClick={handleTeamConfirm} variant="contained">
+             confirm
+           </Button>
+           <Button onClick={()=>logOut(history)} variant="contained">
+             logout
+           </Button>
+           </Box>
+                 </Box>
+                 
+               }
+               {
+                 role == "dev" &&
+                 <Box sx={{mt:3}}>
+                   <Typography>
+                   choose a team
+                 </Typography>
+                 <SelectTeam
+                 loginData = {loginData}
+                 />
+                 </Box>
+               }
+               
+             </FormControl>
+             {isLoading && <CircularProgress />}
+           </Box>
+           }
+       </Grid>
+       <Grid item xs={6}>
+       <Box className="core-img">
+         <img src={core} />
+       </Box>
+         
+         
+       </Grid>
+     </Grid>
+   </Container>
+    </>
   );
 };
 
