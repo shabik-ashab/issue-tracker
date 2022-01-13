@@ -53,7 +53,7 @@ const Choose = () => {
             })
 
   }
-  console.log(loginData);
+  
   // console.log(success);
   return (
     <Container>
@@ -93,18 +93,7 @@ const Choose = () => {
                    name="team"
                    onBlur={handleOnBlur}
                   />
-                  </Box>
-                }
-                {
-                  role == "dev" &&
-                  <Box sx={{mt:3}}>
-                    <Typography>
-                    choose a team
-                  </Typography>
-                  <SelectTeam />
-                  </Box>
-                }
-                <Box sx={{ flexDirection: 'row',mt:3 }}>
+                  <Box sx={{ flexDirection: 'row',mt:3 }}>
                 <Button sx={{mr:2 }} onClick={handleTeamConfirm} variant="contained">
               confirm
             </Button>
@@ -112,6 +101,21 @@ const Choose = () => {
               logout
             </Button>
             </Box>
+                  </Box>
+                  
+                }
+                {
+                  role == "dev" &&
+                  <Box sx={{mt:3}}>
+                    <Typography>
+                    choose a team
+                  </Typography>
+                  <SelectTeam
+                  loginData = {loginData}
+                  />
+                  </Box>
+                }
+                
               </FormControl>
               {isLoading && <CircularProgress />}
             </Box>
