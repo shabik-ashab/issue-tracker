@@ -28,6 +28,9 @@ const Login = () => {
     // const handleGoogleSignIn = (history) => {
     //     signInUsingGoogle(history)
     // }
+    if(user.email){
+        history.push('/choose')
+    }
     return (
         <>
         <Header/>
