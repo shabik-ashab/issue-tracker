@@ -46,8 +46,14 @@ const useFirebase = () => {
         setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password,history)
             .then((userCredential) => {
-                history.replace('/choose');
                 setAuthError('');
+                const userInfo = users.find((currentUser) => currentUser.email == email);
+               if(userInfo.role){
+                history.replace('/dash');
+               }
+               else{
+                history.replace('/choose');
+               }
             })
             .catch((error) => {
                 setAuthError(error.message);
@@ -62,8 +68,15 @@ const useFirebase = () => {
             .then((result) => {
                 const user = result.user;
                 saveUser(user.email, user.displayName, 'PUT');
-                history.replace('/choose');
+               
                 setAuthError('');
+                const userInfo = users.find((currentUser) => currentUser.email == user.email);
+                if(userInfo.role){
+                 history.replace('/dash');
+                }
+                else{
+                 history.replace('/choose');
+                }
                 
             }).catch((error) => {
                 setAuthError(error.message);
@@ -111,7 +124,7 @@ const useFirebase = () => {
           .then((data) => {
             setUsers(data);
           });
-      }, [user.email])
+      }, [user.email,authError])
 
     // useEffect(() => {
     //     fetch(`https://hidden-mountain-15974.herokuapp.com/users/${user.email}`)

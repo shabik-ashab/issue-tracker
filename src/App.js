@@ -33,9 +33,10 @@ function App() {
         </PrivateRoute>
         <Route exact path="/login">
           <Login />
-        </Route><Route  path="/dash">
-          <ResponsiveDrawer />
         </Route>
+        <PrivateRoute  path="/dash">
+          <ResponsiveDrawer />
+        </PrivateRoute>
       </Switch>
     </Router>
     </AuthProvider>
