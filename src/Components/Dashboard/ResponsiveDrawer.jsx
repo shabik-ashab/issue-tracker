@@ -13,6 +13,7 @@ import useAuth from "../../hooks/useAuth";
 import { Button, Grid } from "@mui/material";
 import { Switch, Route, Link, useRouteMatch,useLocation, useHistory, } from "react-router-dom";
 import Team from "./Team";
+import Ticket from './Ticket';
 
 const drawerWidth = 240;
 
@@ -57,6 +58,21 @@ function ResponsiveDrawer(props) {
       </Box>
      
       </Link>
+      <Link to={`${url}/ticket`} style={{ textDecoration: 'none', color:'#1769aa' }}>
+     
+      <Box sx={{
+        backgroundColor: '',
+        '&:hover': {
+          backgroundColor: '#e0e0e0',
+          opacity: [0.9, 0.8, 0.7],
+        },
+        p:1,
+        m:1
+      }}>
+         <span style={{marginLeft: '4em'}}> Ticket </span>
+      </Box>
+     
+      </Link>
 
     </div>
   );
@@ -72,7 +88,7 @@ function ResponsiveDrawer(props) {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          pb:1
+          pb:1,
         }}
       >
         <Toolbar>
@@ -138,9 +154,13 @@ function ResponsiveDrawer(props) {
       >
         <Toolbar />
        <Switch>
-           <Route>
+           <Route  exact path={path}>
                 <Team/>
            </Route>
+           <Route  path={`${path}/ticket`}>
+              <Ticket />
+           </Route>
+
        </Switch>
       </Box>
     </Box>
