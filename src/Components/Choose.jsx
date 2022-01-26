@@ -60,7 +60,7 @@ const Choose = () => {
 
   }
   const userInfo = users.find((currentUser) => currentUser.email == user.email);
-  // console.log(userInfo);
+  
   return (
     <>
      <Header/>
@@ -101,7 +101,7 @@ const Choose = () => {
                    labelId="demo-simple-select-label"
                    id="demo-simple-select"
                    value={role}
-                   label="Age"
+                   label="Role"
                    onChange={handleChange}
                    name="role"
                   //  onBlur={handleOnBlur}

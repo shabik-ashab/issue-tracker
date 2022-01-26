@@ -12,13 +12,18 @@ const Ticket = () => {
     const { user } = useAuth();
 
     const [success,setSuccess] = useState(false);
-    const [age, setAge] = React.useState('');
+    const [urgency, setUrgency] = React.useState('');
   
     const initialInfo = { name: user.displayName, email: user.email };
     const [newData, setNewData] = useState(initialInfo);
 
-    const handleChange = (event) => {
-      setAge(event.target.value);
+    const handleChange = (e) => {
+      setUrgency(e.target.value);
+      const field = e.target.name;
+      const value = e.target.value;
+      const newFormData = { ...newData };
+      newFormData[field] = value;
+      setNewData(newFormData);
     };
 
     const handleOnBlur = (e) => {
@@ -66,8 +71,8 @@ const Ticket = () => {
  <FormControl variant="standard" sx={{ width:'40vh' }}>
         <InputLabel >Age</InputLabel>
         <Select
-          
-          value={age}
+          name="urgency"
+          value={urgency}
           onChange={handleChange}
           label="Urgency Level"
         >

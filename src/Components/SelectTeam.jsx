@@ -27,7 +27,6 @@ export default function SelectTeam(props) {
   for (let i = 0; i < user.length; i++) {
     data.push({ label: user[i], value: user[i] });
   }
- console.log(loginData);
   const handleTeamConfirm = () =>{
     
     fetch('http://localhost:5000/users/role', {
