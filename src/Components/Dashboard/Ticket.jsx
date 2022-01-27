@@ -9,12 +9,13 @@ import Select from '@mui/material/Select';
 
 
 const Ticket = () => {
-    const { user } = useAuth();
+    const { user,users } = useAuth();
+    const userInfo = users.find((currentUser) => currentUser.email == user.email);
 
     const [success,setSuccess] = useState(false);
     const [urgency, setUrgency] = React.useState('');
   
-    const initialInfo = { name: user.displayName, email: user.email };
+    const initialInfo = { name: user.displayName, email: user.email,team: userInfo.team };
     const [newData, setNewData] = useState(initialInfo);
 
     const handleChange = (e) => {
@@ -33,7 +34,7 @@ const Ticket = () => {
         newFormData[field] = value;
         setNewData(newFormData);
       };
-      console.log(newData);
+      
     const handleSubmit = (e) =>{
       e.preventDefault();
       fetch('http://localhost:5000/tickets', {
@@ -146,7 +147,7 @@ const Ticket = () => {
   </Grid>
   <Grid item  xs={12} md={7}>
    
-    <MyTicket success={success} />
+    <MyTicket success={success} key={success} />
   </Grid>
  
 </Grid>
