@@ -56,20 +56,22 @@ const Ticket = () => {
     }
   return <>
      <Container>
-     <Grid container spacing={2}>
-  <Grid item xs={12} md={6}>
+     <Grid container spacing={3}>
+  <Grid item xs={12} md={5}>
   <Box > 
   <Typography 	textAlign="center" variant="h3" sx={{mt:2,mb:4}}>
             create ticket
  </Typography>
- {
+
+<Box display="flex" sx={{justifyContent:'center'}}>
+<form onSubmit={handleSubmit} >
+{
         success && 
-        <Alert sx={{mb:2}} severity="success">Ticket Created successfully</Alert>
+        <Alert sx={{mb:2,width:'40vh'}} severity="success">Ticket Created successfully</Alert>
       }
- <form onSubmit={handleSubmit} >
  <Box sx={{  width:'40vh',mb:3 }}>
  <FormControl variant="standard" sx={{ width:'40vh' }}>
-        <InputLabel >Age</InputLabel>
+        <InputLabel >Urgency Level</InputLabel>
         <Select
           name="urgency"
           value={urgency}
@@ -82,7 +84,7 @@ const Ticket = () => {
         </Select>
       </FormControl>
       
-    </Box>
+    </Box >
    <TextField
             sx={{
                 width:'40vh',
@@ -138,14 +140,13 @@ const Ticket = () => {
         
         <Button type="submit" variant="outlined">Submit</Button>
    </form>
+</Box>
      
  </Box>
   </Grid>
-  <Grid item  xs={12} md={6}>
-    <Typography  sx={{mb:5,mt:2}} variant='h3'>
-        My Tickets
-    </Typography>
-    <MyTicket />
+  <Grid item  xs={12} md={7}>
+   
+    <MyTicket success={success} />
   </Grid>
  
 </Grid>
