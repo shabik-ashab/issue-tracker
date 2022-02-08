@@ -7,7 +7,9 @@ import { Grid } from "@mui/material";
 
 const MyTicket = ({ success }) => {
   const [tickets, setTickets] = useState([]);
+  
   const { user } = useAuth();
+ 
 
   useEffect(() => {
     const url = `http://localhost:5000/tickets?email=${user.email}`;
@@ -33,7 +35,8 @@ const MyTicket = ({ success }) => {
         });
     }
   };
-  
+ 
+  console.log(tickets);
   return (
     <>
       <Container display='flex' sx={{justifyContent: 'center' }}>
@@ -107,20 +110,25 @@ const MyTicket = ({ success }) => {
                     </Box>
                   }
                  </Box>
+                
                   <Typography>{ticket.details}</Typography>
                 </Grid>
                 
-                <Grid item xs={2}>
+                <Grid item xs={3}>
+                <Typography sx={{fontSize:'.6em'}}>
+                   Created: {ticket.date}
+                 </Typography>
                 <Button
                     onClick={() => handledelete(ticket._id)}
                     variant="outlined"
                     color="error"
                     sx={{
-                      mt:1
+                      
                     }}
                   >
                     Delete
                   </Button>
+                 
                 </Grid>
               </Grid>
             </Box>

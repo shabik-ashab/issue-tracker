@@ -15,7 +15,10 @@ const Ticket = () => {
     const [success,setSuccess] = useState(false);
     const [urgency, setUrgency] = React.useState('');
   
-    const initialInfo = { name: user.displayName, email: user.email,team: userInfo.team };
+    const dt = new Date();
+    const stringDt = dt.toDateString();
+
+    const initialInfo = { name: user.displayName, email: user.email,team: userInfo?.team,date: stringDt };
     const [newData, setNewData] = useState(initialInfo);
 
     const handleChange = (e) => {
@@ -34,7 +37,7 @@ const Ticket = () => {
         newFormData[field] = value;
         setNewData(newFormData);
       };
-      
+
     const handleSubmit = (e) =>{
       e.preventDefault();
       fetch('http://localhost:5000/tickets', {
@@ -55,6 +58,7 @@ const Ticket = () => {
             })
       e.preventDefault();
     }
+  
   return <>
      <Container>
      <Grid container spacing={3}>
