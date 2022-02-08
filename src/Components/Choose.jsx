@@ -55,6 +55,7 @@ const Choose = () => {
                 if (data.modifiedCount) {
                     console.log(data);
                     setSuccess(true);
+                    history.replace('/dash')
                 }
             })
 

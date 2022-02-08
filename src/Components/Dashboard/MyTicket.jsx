@@ -8,15 +8,19 @@ import { Grid } from "@mui/material";
 const MyTicket = ({ success }) => {
   const [tickets, setTickets] = useState([]);
   
+  
   const { user } = useAuth();
  
-
+ 
   useEffect(() => {
-    const url = `http://localhost:5000/tickets?email=${user.email}`;
+    const url = `http://localhost:5000/ticket?email=${user.email}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => setTickets(data));
   }, [success]);
+
+
+ 
 
   const handledelete = (id) => {
     const confirmBox = window.confirm("Do you want to delete this ticket");
@@ -36,7 +40,7 @@ const MyTicket = ({ success }) => {
     }
   };
  
-  console.log(tickets);
+ 
   return (
     <>
       <Container display='flex' sx={{justifyContent: 'center' }}>

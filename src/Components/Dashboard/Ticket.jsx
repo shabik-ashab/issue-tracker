@@ -9,8 +9,8 @@ import Select from '@mui/material/Select';
 
 
 const Ticket = () => {
-    const { user,users } = useAuth();
-    const userInfo = users.find((currentUser) => currentUser.email == user.email);
+    const { user,currentUser } = useAuth();
+   
 
     const [success,setSuccess] = useState(false);
     const [urgency, setUrgency] = React.useState('');
@@ -18,7 +18,7 @@ const Ticket = () => {
     const dt = new Date();
     const stringDt = dt.toDateString();
 
-    const initialInfo = { name: user.displayName, email: user.email,team: userInfo?.team,date: stringDt };
+    const initialInfo = { name: user.displayName, email: user.email,team: currentUser?.team,date: stringDt };
     const [newData, setNewData] = useState(initialInfo);
 
     const handleChange = (e) => {

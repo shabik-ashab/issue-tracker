@@ -20,25 +20,25 @@ const drawerWidth = 240;
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { users, user,logOut } = useAuth();
+  const { currentUser, user,logOut } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
   const history = useHistory();
-  const userInfo = users.find((currentUser) => currentUser.email == user.email);
+  console.log(currentUser);
 
   let { path, url } = useRouteMatch();
 
   const drawer = (
     <div>
       <Box sx={{ ml: 2, mb:1 }}>
-        <Typography>Name: {userInfo?.displayName}
+        <Typography>Name: {currentUser?.displayName}
         <Button onClick={()=>logOut(history)} >
                   logout
                  </Button>
         </Typography>
-        <Typography>Team Name: {userInfo?.team}</Typography>
+        <Typography>Team Name: {currentUser?.team}</Typography>
       </Box>
       
       <Toolbar />
