@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
-const AdminRoute = ({ children, ...rest }) => {
+const ManagerRoute = ({ children, ...rest }) => {
     const { user, admin, isLoading } = useAuth();
     if (isLoading) { return <CircularProgress /> }
     return (
@@ -25,4 +25,4 @@ const AdminRoute = ({ children, ...rest }) => {
     );
 };
 
-export default AdminRoute;
+export default ManagerRoute;

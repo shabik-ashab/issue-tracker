@@ -12,6 +12,7 @@ const useFirebase = () => {
     const [authError, setAuthError] = useState('');
     const [users,setUsers]  = useState([]);
     const [currentUsr,setCurrentuser]= useState([]);
+    const [manager,setManager] = useState(false);
 
     const currentUser = currentUsr[0];
 
@@ -136,11 +137,11 @@ const useFirebase = () => {
           .then((data) => setCurrentuser(data));
       }, [user.email,authError]);
 
-    // useEffect(() => {
-    //     fetch(`https://hidden-mountain-15974.herokuapp.com/users/${user.email}`)
-    //         .then(res => res.json())
-    //         .then(data => setAdmin(data.admin))
-    // }, [user.email])
+    useEffect(() => {
+        fetch(`http://localhost:5000/users/${user.email}`)
+            .then(res => res.json())
+            .then(data => setManager(data.manager))
+    }, [user.email])
 
     return {
         user,
@@ -152,7 +153,8 @@ const useFirebase = () => {
         loginUser,
         authError,
         logOut,
-        currentUser
+        currentUser,
+        manager
     }
 }
 

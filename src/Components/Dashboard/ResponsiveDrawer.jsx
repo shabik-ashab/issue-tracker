@@ -14,19 +14,20 @@ import { Button, Grid } from "@mui/material";
 import { Switch, Route, Link, useRouteMatch,useLocation, useHistory, } from "react-router-dom";
 import Team from "./Team";
 import Ticket from './Ticket';
+import AssignTicket from "./AssignTicket";
+import ManagerRoute from '../ManagerRoute/ManagerRoute';
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { currentUser, user,logOut } = useAuth();
+  const { currentUser, user,logOut,manager } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
   const history = useHistory();
-  console.log(currentUser);
 
   let { path, url } = useRouteMatch();
 
@@ -73,6 +74,24 @@ function ResponsiveDrawer(props) {
       </Box>
      
       </Link>
+     {
+       manager &&
+       <Link to={`${url}/assign`} style={{ textDecoration: 'none', color:'#1769aa' }}>
+     
+       <Box sx={{
+         backgroundColor: '',
+         '&:hover': {
+           backgroundColor: '#e0e0e0',
+           opacity: [0.9, 0.8, 0.7],
+         },
+         p:1,
+         m:1
+       }}>
+          <span style={{marginLeft: '4em'}}> Assign Ticket </span>
+       </Box>
+      
+       </Link>
+     }
 
     </div>
   );
@@ -160,6 +179,10 @@ function ResponsiveDrawer(props) {
            <Route  path={`${path}/ticket`}>
               <Ticket />
            </Route>
+           <ManagerRoute  path={`${path}/assign`}>
+             <AssignTicket />
+           </ManagerRoute>
+
 
        </Switch>
       </Box>
