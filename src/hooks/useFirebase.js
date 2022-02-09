@@ -10,9 +10,8 @@ const useFirebase = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [admin, setAdmin] = useState(false);
     const [authError, setAuthError] = useState('');
-    const [users,setUsers]  = useState([]);
+
     const [currentUsr,setCurrentuser]= useState([]);
-    const [manager,setManager] = useState(false);
 
     const currentUser = currentUsr[0];
 
@@ -51,8 +50,8 @@ const useFirebase = () => {
         signInWithEmailAndPassword(auth, email, password,history)
             .then((userCredential) => {
                 setAuthError('');
-                const userInfo = users.find((currentUser) => currentUser.email == email);
-               if(userInfo.role){
+                // const userInfo = users.find((currentUser) => currentUser.email == email);
+               if(currentUsr.role){
                 history.replace('/dash');
                }
                else{
@@ -74,8 +73,8 @@ const useFirebase = () => {
                 saveUser(user.email, user.displayName, 'PUT');
                
                 setAuthError('');
-                const userInfo = users.find((currentUser) => currentUser.email == user.email);
-                if(userInfo.role){
+                // const userInfo = users.find((currentUser) => currentUser.email == user.email);
+                if(currentUsr.role){
                  history.replace('/dash');
                 }
                 else{
@@ -122,13 +121,13 @@ const useFirebase = () => {
             .then()
     }
 
-    useEffect(() => {
-        fetch('http://localhost:5000/users') 
-        .then((res) => res.json())
-          .then((data) => {
-            setUsers(data);
-          });
-      }, [user.email,authError])
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/users') 
+    //     .then((res) => res.json())
+    //       .then((data) => {
+    //         setUsers(data);
+    //       });
+    //   }, [user.email,authError])
 
       useEffect(() => {
         const url = `http://localhost:5000/user?email=${user.email}`;
@@ -137,15 +136,14 @@ const useFirebase = () => {
           .then((data) => setCurrentuser(data));
       }, [user.email,authError]);
 
-    useEffect(() => {
-        fetch(`http://localhost:5000/users/${user.email}`)
-            .then(res => res.json())
-            .then(data => setManager(data.manager))
-    }, [user.email])
+    // useEffect(() => {
+    //     fetch(`http://localhost:5000/users/${user.email}`)
+    //         .then(res => res.json())
+    //         .then(data => setManager(data.manager))
+    // }, [user.email])
 
     return {
         user,
-        users,
         isLoading,
         admin,
         signInUsingGoogle,
@@ -153,8 +151,7 @@ const useFirebase = () => {
         loginUser,
         authError,
         logOut,
-        currentUser,
-        manager
+        currentUser
     }
 }
 

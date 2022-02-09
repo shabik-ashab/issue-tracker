@@ -10,7 +10,7 @@ const ManagerRoute = ({ children, ...rest }) => {
         <Route
             {...rest}
             render={({ location }) =>
-                user.email && currentUser.role == 'manager' ? (
+                user.email && currentUser?.role == 'manager' ? (
                     children
                 ) : (
                     <Redirect

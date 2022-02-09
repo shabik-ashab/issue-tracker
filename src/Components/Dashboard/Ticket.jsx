@@ -18,7 +18,7 @@ const Ticket = () => {
     const dt = new Date();
     const stringDt = dt.toDateString();
 
-    const initialInfo = { name: user.displayName, email: user.email,team: currentUser?.team,date: stringDt };
+    const initialInfo = { name: user.displayName, email: user.email,team: currentUser.team,date: stringDt };
     const [newData, setNewData] = useState(initialInfo);
 
     const handleChange = (e) => {

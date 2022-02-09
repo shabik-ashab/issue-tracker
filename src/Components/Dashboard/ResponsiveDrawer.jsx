@@ -75,7 +75,7 @@ function ResponsiveDrawer(props) {
      
       </Link>
      {
-       manager &&
+       currentUser?.role == 'manager' &&
        <Link to={`${url}/assign`} style={{ textDecoration: 'none', color:'#1769aa' }}>
      
        <Box sx={{

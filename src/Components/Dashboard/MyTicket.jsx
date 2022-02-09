@@ -11,7 +11,6 @@ const MyTicket = ({ success }) => {
   
   const { user,manager } = useAuth();
  
- console.log(manager);
   useEffect(() => {
     const url = `http://localhost:5000/ticket?email=${user.email}`;
     fetch(url)

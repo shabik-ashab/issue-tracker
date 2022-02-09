@@ -13,7 +13,7 @@ import SelectTeam from "./SelectTeam";
 import Header from "./Header";
 
 const Choose = () => {
-  const { logOut, user,isLoading,users } = useAuth();
+  const { logOut, user,isLoading,currentUser } = useAuth();
   const [success, setSuccess] = React.useState(false);
   const [loginData, setLoginData] = React.useState({
     email:user.email,
@@ -60,7 +60,7 @@ const Choose = () => {
             })
 
   }
-  const userInfo = users.find((currentUser) => currentUser.email == user.email);
+  // const userInfo = users.find((currentUser) => currentUser.email == user.email);
   
   return (
     <>
@@ -68,7 +68,7 @@ const Choose = () => {
     
     <Container>
      <Grid container spacing={2}>
-      {    userInfo?.role ?
+      {    currentUser?.role ?
           <Grid item xs={6}>
             <Box sx={{mt:5}}>
             <Typography variant="h4">
@@ -97,9 +97,8 @@ const Choose = () => {
              {
                !success && <Box sx={{ width: 220, mt: 6 }}>
                <FormControl fullWidth>
-                 <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                 <InputLabel >Role</InputLabel>
                  <Select
-                   labelId="demo-simple-select-label"
                    id="demo-simple-select"
                    value={role}
                    label="Role"
