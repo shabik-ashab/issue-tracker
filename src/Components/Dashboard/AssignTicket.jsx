@@ -76,7 +76,6 @@ const AssignTicket = () => {
 //   console.log(tickets);
 
   const handleConfirm = (id) => {
-    console.log(loginData);
   //   e.preventDefault();
   const url = `http://localhost:5000/tickets/${id}`;
   fetch(url, {
@@ -96,11 +95,13 @@ const AssignTicket = () => {
     .finally();
 }
 
+const reverseTicket = tickets.slice().reverse();
+
 // const [value, setValue] = React.useState(new Date());
 //    console.log(value);  
   return <div>
 
-{tickets.map((ticket) => (
+{reverseTicket.map((ticket) => (
             <Box
              key={ticket._id}
               sx={{ mb: 1, width: "100%", border: "1px solid #546e7a", p: 1 }}
@@ -212,7 +213,7 @@ const AssignTicket = () => {
             
 <Grid item xs={6}>
 
-<FormControl  fullWidth>
+<FormControl  variant="standard" sx={{ pb: 1, minWidth: 100 }}>
          
          <InputLabel >Assign To</InputLabel>
           <Select

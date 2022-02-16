@@ -1,58 +1,67 @@
-import { Button, Container, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
-import Ticket from "./Ticket";
-import useAuth from "../../hooks/useAuth";
-import { Grid } from "@mui/material";
-
-const MyTicket = ({ success }) => {
-  const [tickets, setTickets] = useState([]);
-  
-  
-  const { user,manager } = useAuth();
- 
-  useEffect(() => {
-    const url = `http://localhost:5000/ticket?email=${user.email}`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setTickets(data));
-  }, [success]);
+import { Container, Grid, Typography, FormControl, Select, MenuItem, InputLabel, Button } from '@mui/material';
+import { Box } from '@mui/system';
+import React, { useEffect, useState } from 'react'
+import useAuth from '../../hooks/useAuth'
 
 
- 
+const AssignedToMe = () => {
+    const {user} = useAuth();
+    const [tickets, setTickets] = useState([]);
+    const [loginData, setLoginData] = React.useState({
+       assign:user.displayName,
+    });
 
-  const handledelete = (id) => {
-    const confirmBox = window.confirm("Do you want to delete this ticket");
-    if (confirmBox === true) {
-      const url = `http://localhost:5000/tickets/${id}`;
-      fetch(url, {
-        method: "DELETE",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.deletedCount > 0) {
-            alert("deleted sucessfully");
-            const remaining = tickets.filter((pd) => pd._id !== id);
-            setTickets(remaining);
-          }
-        });
-    }
-  };
- 
- 
+    const handleChange = (e) => {
+
+        const id = e.target.id;
+        const field = e.target.name;
+        const value = e.target.value;
+        const newLoginData = { ...loginData };
+        newLoginData[field] = value;
+        setLoginData(newLoginData);
+      };
+
+    useEffect(() => {
+        const url = `http://localhost:5000/tickets`;
+        fetch(url)
+          .then((res) => res.json())
+          .then((data) => setTickets(data));
+      }, []);
+
+      const handleConfirm = (id) => {
+        //   e.preventDefault();
+        const url = `http://localhost:5000/tickets/${id}`;
+        fetch(url, {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(loginData),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.modifiedCount === 1) {
+              alert("changed sucessfully");
+            }
+            // alert("");
+          })
+          .finally();
+      }
+
+      const assignTicket = tickets.filter((ticket) => ticket.assign == user.displayName);
+      console.log(loginData);
   return (
     <>
-      <Container display='flex' sx={{justifyContent: 'center' }}>
-        <Box sx={{width: "100%"}}>
-        <Typography textAlign="center"  sx={{mb:5,mt:2}} variant='h3'>
-        My Tickets
+    <Container>
+    <Typography textAlign="center"  sx={{mb:5,mt:2}} variant='h3'>
+        Assigned Ticket 
     </Typography>
-          {tickets.map((ticket) => (
+    {assignTicket.map((ticket) => (
             <Box
               sx={{ mb: 1, width: "100%", border: "1px solid #546e7a", p: 1 }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={9}>
+                <Grid item xs={5}>
                  <Box display="flex" sx={{alignContent: 'center'}}>
                  <Typography  variant="h6">{ticket.title} </Typography>
                   {
@@ -113,21 +122,41 @@ const MyTicket = ({ success }) => {
                     </Box>
                   }
                  </Box>
-                 {
-                   ticket.assign &&
+                 
                    <Typography sx={{fontSize:'.6em'}}>
-                    Assigned To: {ticket.assign}
+                    Created By: {ticket.name}
                    </Typography>
-                 }
+                 
                 
                   <Typography>{ticket.details}</Typography>
                 </Grid>
                 
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                 <Typography sx={{fontSize:'.6em'}}>
                    Created: {ticket.date}
                  </Typography>
-                <Button
+                 <FormControl  variant="standard" sx={{ pb: 1, minWidth: 100 }}>
+         
+         <InputLabel >Progress status</InputLabel>
+          <Select
+          
+            value={loginData.progress}
+            label="Assign to"
+            onChange={handleChange}
+            name="progress"
+            id={ticket._id}
+           //  onBlur={handleOnBlur}
+          >
+           
+                 <MenuItem value="Working On">Working On</MenuItem>
+                 <MenuItem value="Complete">Complete</MenuItem>
+             
+          </Select>
+     
+          
+        </FormControl>
+
+                {/* <Button
                     onClick={() => handledelete(ticket._id)}
                     variant="outlined"
                     color="error"
@@ -136,16 +165,20 @@ const MyTicket = ({ success }) => {
                     }}
                   >
                     Delete
-                  </Button>
+                  </Button> */}
                  
+                </Grid>
+                <Grid item xs={3}>
+                    {ticket.progress}
+                <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
                 </Grid>
               </Grid>
             </Box>
           ))}
-        </Box>
-      </Container>
-    </>
-  );
-};
 
-export default MyTicket;
+    </Container>
+    </>
+  )
+}
+
+export default AssignedToMe

@@ -24,6 +24,7 @@ import Ticket from "./Ticket";
 import AssignTicket from "./AssignTicket";
 import ManagerRoute from "../ManagerRoute/ManagerRoute";
 import MyTicket from "./MyTicket";
+import Myticket from "./Myticket";
 
 const drawerWidth = 240;
 
@@ -218,7 +219,7 @@ function ResponsiveDrawer(props) {
                 <Ticket />
               </Route>
               <Route path={`${path}/myTicket`}>
-                <MyTicket />
+                <Myticket />
               </Route>
               <ManagerRoute path={`${path}/assign`}>
                 <AssignTicket />
