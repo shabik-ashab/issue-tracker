@@ -10,35 +10,10 @@ import { useLocation } from 'react-router-dom';
 
 const AssignedToMe = () => {
     const {user} = useAuth();
-    const [loading,setLoading] = useState(false);
-    const [success,setSuccess] = useState(false);
+   
     const [tickets, setTickets] = useState([]);
     const [locationId,setLocationId] =  useState("");
-    const [loginData, setLoginData] = React.useState({
-       assign:user.displayName,
-    });
-    const initialInfo = { name: user.displayName, email: user.email};
-    const [newData, setNewData] = useState(initialInfo);
-
-    const handleChange = (e) => {
-
-        const id = e.target.id;
-        const field = e.target.name;
-        const value = e.target.value;
-        const newLoginData = { ...loginData };
-        newLoginData[field] = value;
-        setLoginData(newLoginData);
-      };
-
-      const handleOnBlur = (e) => {
-        const field = e.target.name;
-        const value = e.target.value;
-        const newFormData = { ...newData };
-        newFormData[field] = value;
-        setNewData(newFormData);
-      };
-      
-
+    
     useEffect(() => {
         const url = `http://localhost:5000/tickets`;
         fetch(url)
@@ -46,61 +21,18 @@ const AssignedToMe = () => {
           .then((data) => setTickets(data));
       }, []);
 
-      const handleConfirm = (id) => {
-        //   e.preventDefault();
-        const url = `http://localhost:5000/tickets/${id}`;
-        fetch(url, {
-          method: "PUT",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(loginData),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.modifiedCount === 1) {
-              alert("changed sucessfully");
-            }
-            // alert("");
-          })
-          .finally();
-      }
-
-      const handleSubmit = (id) =>{
-        
-        setLoading(true);
-       
-        const comment ={
-            ...newData,
-            id
-        }
-        
-        fetch('http://localhost:5000/comments', {
-              method: 'POST',
-              headers: {
-                  'content-type': 'application/json'
-              },
-             body: JSON.stringify(comment),
-          })
-              .then(res => res.json())
-              .then(data => {
-                  if (data.insertedId) {
-                      setSuccess(true);
-                      setLoading(false);
-                  }
-              })
-        
-      }
       let { path, url } = useRouteMatch();
       const location = useLocation();
-      const locatioId = location.pathname.slice(16,20)
+      const locatioId = location.pathname.slice(16,20);
+
       const handleDetails = () => {
         setLocationId(locatioId);
       }
+
       const handleGoBack = () => {
         setLocationId("");
       }
-      console.log(locationId)
+      
       const assignTicket = tickets.filter((ticket) => ticket.assign == user.displayName);
   return (
     <>
@@ -110,6 +42,7 @@ const AssignedToMe = () => {
         <Route path={`${path}/:id`}>
            <AssignTicketDetails 
            handleGoBack={handleGoBack}
+           tickets={tickets}
            />
         </Route>
       </Switch>
@@ -189,21 +122,7 @@ const AssignedToMe = () => {
                         Created By: {ticket.name}
                        </Typography>
                       <Typography>{ticket.details}</Typography>
-                      {/* comment  */}
-                    
-                      {/* <TextField
-              sx={{
-                  mt:2
-              }} 
-              label="Add a comment..."
-              placeholder="Placeholder"
-              name="comment"
-              multiline
-              variant="filled"
-              onBlur={handleOnBlur}
-            />
-            <Button onClick={() => handleSubmit(ticket._id)} sx={{mt:1,px:3}} type="submit" variant="outlined">Add Comment</Button>
-                    */}
+                      
     
                     </Grid>
                     {/* choose progres  */}
@@ -211,25 +130,7 @@ const AssignedToMe = () => {
                     <Typography sx={{fontSize:'.6em'}}>
                        Created: {ticket.date}
                      </Typography>
-                     <FormControl  variant="standard" sx={{ pb: 1, minWidth: 100 }}>
-             <InputLabel >Progress status</InputLabel>
-              <Select
-              
-                value={loginData.progress}
-                label="Assign to"
-                onChange={handleChange}
-                name="progress"
-                id={ticket._id}
-               //  onBlur={handleOnBlur}
-              >
-               
-                     <MenuItem value="Working On">Working On</MenuItem>
-                     <MenuItem value="Complete">Complete</MenuItem>
-                 
-              </Select>
-         
-              
-            </FormControl>
+                  
     
                     {/* <Button
                         onClick={() => handledelete(ticket._id)}
@@ -245,8 +146,7 @@ const AssignedToMe = () => {
                     </Grid>
                     <Grid item xs={3}>
                         {ticket.progress}
-                    <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
-    
+                   
                     <Link to={`${url}/${ticket._id}`}>
                     <Button onClick={handleDetails} sx={{mt:2}} variant="outlined">details</Button>
                     </Link>
