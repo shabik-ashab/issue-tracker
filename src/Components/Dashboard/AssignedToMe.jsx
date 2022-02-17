@@ -1,15 +1,24 @@
-import { Container, Grid, Typography, FormControl, Select, MenuItem, InputLabel, Button } from '@mui/material';
+import { Container, Grid, Typography, FormControl, Select, MenuItem, InputLabel, Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
+import { Link, Route, Switch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import useAuth from '../../hooks/useAuth'
+import AssignTicketDetails from './AssignTicketDetails';
+import { useLocation } from 'react-router-dom';
 
 
 const AssignedToMe = () => {
     const {user} = useAuth();
+    const [loading,setLoading] = useState(false);
+    const [success,setSuccess] = useState(false);
     const [tickets, setTickets] = useState([]);
+    const [locationId,setLocationId] =  useState("");
     const [loginData, setLoginData] = React.useState({
        assign:user.displayName,
     });
+    const initialInfo = { name: user.displayName, email: user.email};
+    const [newData, setNewData] = useState(initialInfo);
 
     const handleChange = (e) => {
 
@@ -20,6 +29,15 @@ const AssignedToMe = () => {
         newLoginData[field] = value;
         setLoginData(newLoginData);
       };
+
+      const handleOnBlur = (e) => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newFormData = { ...newData };
+        newFormData[field] = value;
+        setNewData(newFormData);
+      };
+      
 
     useEffect(() => {
         const url = `http://localhost:5000/tickets`;
@@ -48,135 +66,199 @@ const AssignedToMe = () => {
           .finally();
       }
 
+      const handleSubmit = (id) =>{
+        
+        setLoading(true);
+       
+        const comment ={
+            ...newData,
+            id
+        }
+        
+        fetch('http://localhost:5000/comments', {
+              method: 'POST',
+              headers: {
+                  'content-type': 'application/json'
+              },
+             body: JSON.stringify(comment),
+          })
+              .then(res => res.json())
+              .then(data => {
+                  if (data.insertedId) {
+                      setSuccess(true);
+                      setLoading(false);
+                  }
+              })
+        
+      }
+      let { path, url } = useRouteMatch();
+      const location = useLocation();
+      const locatioId = location.pathname.slice(16,20)
+      const handleDetails = () => {
+        setLocationId(locatioId);
+      }
+      const handleGoBack = () => {
+        setLocationId("");
+      }
+      console.log(locationId)
       const assignTicket = tickets.filter((ticket) => ticket.assign == user.displayName);
-      console.log(loginData);
   return (
     <>
-    <Container>
-    <Typography textAlign="center"  sx={{mb:5,mt:2}} variant='h3'>
-        Assigned Ticket 
-    </Typography>
-    {assignTicket.map((ticket) => (
-            <Box
-              sx={{ mb: 1, width: "100%", border: "1px solid #546e7a", p: 1 }}
-            >
-              <Grid container spacing={2}>
-                <Grid item xs={5}>
-                 <Box display="flex" sx={{alignContent: 'center'}}>
-                 <Typography  variant="h6">{ticket.title} </Typography>
-                  {
-                    ticket.urgency == 'Urgent' && 
-                    <Box display="flex" sx={{ml:1,mt:.5}} >
-                      <Typography sx={{  }} >
-                       {ticket.urgency}
-                    </Typography>
-                    <Box sx={{
-                      width:'1vh',
-                      height:'1vh',
-                      borderRadius:'50%',
-                      backgroundColor:"#f57c00",
-                      mt:.6,
-                      ml:.2
-                      
-                    }}>
-
-                    </Box>
-                    </Box>
-                  }
-                   {
-                    ticket.urgency == 'Normal' && 
-                    <Box display="flex" sx={{ml:1,mt:.5}} >
-                      <Typography sx={{  }} >
-                       {ticket.urgency}
-                    </Typography>
-                    <Box sx={{
-                      width:'1vh',
-                      height:'1vh',
-                      borderRadius:'50%',
-                      backgroundColor:"#4caf50",
-                      mt:.6,
-                      ml:.2
-                      
-                    }}>
-
-                    </Box>
-                    </Box>
-                  }
-                   {
-                    ticket.urgency == 'Critical' && 
-                    <Box display="flex" sx={{ml:1,mt:.5}} >
-                      <Typography sx={{  }} >
-                       {ticket.urgency}
-                    </Typography>
-                    <Box sx={{
-                      width:'1vh',
-                      height:'1vh',
-                      borderRadius:'50%',
-                      backgroundColor:"#f44336",
-                      mt:.6,
-                      ml:.2
-                      
-                    }}>
-
-                    </Box>
-                    </Box>
-                  }
-                 </Box>
+    {
+        locationId ?
+        <Switch>
+        <Route path={`${path}/:id`}>
+           <AssignTicketDetails 
+           handleGoBack={handleGoBack}
+           />
+        </Route>
+      </Switch>
+        :
+        <Container>
+        <Typography textAlign="center"  sx={{mb:5,mt:2}} variant='h3'>
+            Assigned Ticket 
+        </Typography>
+        {assignTicket.map((ticket) => (
+                <Box
+                  sx={{ mb: 1, width: "100%", border: "1px solid #546e7a", p: 1 }}
+                >
+                  <Grid container spacing={2}>
+                    <Grid item xs={5}>
+                     <Box display="flex" sx={{alignContent: 'center'}}>
+                     <Typography  variant="h6">{ticket.title} </Typography>
+                      {
+                        ticket.urgency == 'Urgent' && 
+                        <Box display="flex" sx={{ml:1,mt:.5}} >
+                          <Typography sx={{  }} >
+                           {ticket.urgency}
+                        </Typography>
+                        <Box sx={{
+                          width:'1vh',
+                          height:'1vh',
+                          borderRadius:'50%',
+                          backgroundColor:"#f57c00",
+                          mt:.6,
+                          ml:.2
+                          
+                        }}>
+    
+                        </Box>
+                        </Box>
+                      }
+                       {
+                        ticket.urgency == 'Normal' && 
+                        <Box display="flex" sx={{ml:1,mt:.5}} >
+                          <Typography sx={{  }} >
+                           {ticket.urgency}
+                        </Typography>
+                        <Box sx={{
+                          width:'1vh',
+                          height:'1vh',
+                          borderRadius:'50%',
+                          backgroundColor:"#4caf50",
+                          mt:.6,
+                          ml:.2
+                          
+                        }}>
+    
+                        </Box>
+                        </Box>
+                      }
+                       {
+                        ticket.urgency == 'Critical' && 
+                        <Box display="flex" sx={{ml:1,mt:.5}} >
+                          <Typography sx={{  }} >
+                           {ticket.urgency}
+                        </Typography>
+                        <Box sx={{
+                          width:'1vh',
+                          height:'1vh',
+                          borderRadius:'50%',
+                          backgroundColor:"#f44336",
+                          mt:.6,
+                          ml:.2
+                          
+                        }}>
+    
+                        </Box>
+                        </Box>
+                      }
+                     </Box>
+                     
+                       <Typography sx={{fontSize:'.6em'}}>
+                        Created By: {ticket.name}
+                       </Typography>
+                      <Typography>{ticket.details}</Typography>
+                      {/* comment  */}
+                    
+                      {/* <TextField
+              sx={{
+                  mt:2
+              }} 
+              label="Add a comment..."
+              placeholder="Placeholder"
+              name="comment"
+              multiline
+              variant="filled"
+              onBlur={handleOnBlur}
+            />
+            <Button onClick={() => handleSubmit(ticket._id)} sx={{mt:1,px:3}} type="submit" variant="outlined">Add Comment</Button>
+                    */}
+    
+                    </Grid>
+                    {/* choose progres  */}
+                    <Grid item xs={4}>
+                    <Typography sx={{fontSize:'.6em'}}>
+                       Created: {ticket.date}
+                     </Typography>
+                     <FormControl  variant="standard" sx={{ pb: 1, minWidth: 100 }}>
+             <InputLabel >Progress status</InputLabel>
+              <Select
+              
+                value={loginData.progress}
+                label="Assign to"
+                onChange={handleChange}
+                name="progress"
+                id={ticket._id}
+               //  onBlur={handleOnBlur}
+              >
+               
+                     <MenuItem value="Working On">Working On</MenuItem>
+                     <MenuItem value="Complete">Complete</MenuItem>
                  
-                   <Typography sx={{fontSize:'.6em'}}>
-                    Created By: {ticket.name}
-                   </Typography>
-                 
-                
-                  <Typography>{ticket.details}</Typography>
-                </Grid>
-                
-                <Grid item xs={4}>
-                <Typography sx={{fontSize:'.6em'}}>
-                   Created: {ticket.date}
-                 </Typography>
-                 <FormControl  variant="standard" sx={{ pb: 1, minWidth: 100 }}>
+              </Select>
          
-         <InputLabel >Progress status</InputLabel>
-          <Select
-          
-            value={loginData.progress}
-            label="Assign to"
-            onChange={handleChange}
-            name="progress"
-            id={ticket._id}
-           //  onBlur={handleOnBlur}
-          >
-           
-                 <MenuItem value="Working On">Working On</MenuItem>
-                 <MenuItem value="Complete">Complete</MenuItem>
-             
-          </Select>
-     
-          
-        </FormControl>
-
-                {/* <Button
-                    onClick={() => handledelete(ticket._id)}
-                    variant="outlined"
-                    color="error"
-                    sx={{
-                      
-                    }}
-                  >
-                    Delete
-                  </Button> */}
-                 
-                </Grid>
-                <Grid item xs={3}>
-                    {ticket.progress}
-                <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
-                </Grid>
-              </Grid>
-            </Box>
-          ))}
-
-    </Container>
+              
+            </FormControl>
+    
+                    {/* <Button
+                        onClick={() => handledelete(ticket._id)}
+                        variant="outlined"
+                        color="error"
+                        sx={{
+                          
+                        }}
+                      >
+                        Delete
+                      </Button> */}
+                     
+                    </Grid>
+                    <Grid item xs={3}>
+                        {ticket.progress}
+                    <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
+    
+                    <Link to={`${url}/${ticket._id}`}>
+                    <Button onClick={handleDetails} sx={{mt:2}} variant="outlined">details</Button>
+                    </Link>
+                    </Grid>
+                  </Grid>
+                  
+                </Box>
+              ))}
+        </Container>
+    }
+   
+   
     </>
   )
 }

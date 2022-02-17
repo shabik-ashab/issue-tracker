@@ -3,7 +3,9 @@ import React from "react";
 import AssignedToMe from "./AssignedToMe";
 import MyTicket from "./MyTicket";
 
-const Myticket = () => {
+const Myticket = (props) => {
+
+    console.log(props.location);
   return (
     <>
       <Grid container spacing={2}>

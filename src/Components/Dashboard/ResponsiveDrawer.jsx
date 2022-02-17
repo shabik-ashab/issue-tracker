@@ -25,6 +25,7 @@ import AssignTicket from "./AssignTicket";
 import ManagerRoute from "../ManagerRoute/ManagerRoute";
 import MyTicket from "./MyTicket";
 import Myticket from "./Myticket";
+import AssignTicketDetails from "./AssignTicketDetails";
 
 const drawerWidth = 240;
 
@@ -38,12 +39,14 @@ function ResponsiveDrawer(props) {
   //   setLoading(false);
   // }
 
+  
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
   const history = useHistory();
 
   let { path, url } = useRouteMatch();
+  
 
   const drawer = (
     <div>
@@ -221,6 +224,7 @@ function ResponsiveDrawer(props) {
               <Route path={`${path}/myTicket`}>
                 <Myticket />
               </Route>
+              
               <ManagerRoute path={`${path}/assign`}>
                 <AssignTicket />
               </ManagerRoute>

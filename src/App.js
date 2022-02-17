@@ -11,6 +11,7 @@ import Login from './Components/Login';
 import Choose from './Components/Choose';
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 import ResponsiveDrawer from './Components/Dashboard/ResponsiveDrawer';
+import AssignTicketDetails from './Components/Dashboard/AssignTicketDetails';
 
 function App() {
   
@@ -34,6 +35,7 @@ function App() {
         <Route exact path="/login">
           <Login />
         </Route>
+       
         <PrivateRoute  path="/dash">
           <ResponsiveDrawer />
         </PrivateRoute>
