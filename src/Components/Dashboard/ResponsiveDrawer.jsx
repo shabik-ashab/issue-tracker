@@ -23,9 +23,7 @@ import Team from "./Team";
 import Ticket from "./Ticket";
 import AssignTicket from "./AssignTicket";
 import ManagerRoute from "../ManagerRoute/ManagerRoute";
-import MyTicket from "./MyTicket";
 import Myticket from "./Myticket";
-import AssignTicketDetails from "./AssignTicketDetails";
 
 const drawerWidth = 240;
 
@@ -55,7 +53,7 @@ function ResponsiveDrawer(props) {
           Name: {currentUser?.displayName}
           <Button onClick={() => logOut(history)}>logout</Button>
         </Typography>
-        <Typography>Team Name: {currentUser?.team}</Typography>
+       
       </Box>
 
       <Toolbar />
@@ -150,6 +148,9 @@ function ResponsiveDrawer(props) {
               width: { sm: `calc(100% - ${drawerWidth}px)` },
               ml: { sm: `${drawerWidth}px` },
               pb: 1,
+              backgroundColor:"white",
+              boxShadow:'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px',
+              color:'black'
             }}
           >
             <Toolbar>
@@ -162,9 +163,11 @@ function ResponsiveDrawer(props) {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" noWrap component="div">
-                Responsive drawer
+              <Typography  noWrap component="div">
+                Dashboard
+                <Typography variant="h6">My Team: {currentUser?.team}</Typography>
               </Typography>
+              
             </Toolbar>
           </AppBar>
           <Box

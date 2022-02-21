@@ -1,7 +1,6 @@
 import { Button, Container, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import Ticket from "./Ticket";
 import useAuth from "../../hooks/useAuth";
 import { Grid } from "@mui/material";
 

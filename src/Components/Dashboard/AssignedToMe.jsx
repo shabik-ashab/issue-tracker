@@ -1,4 +1,4 @@
-import { Container, Grid, Typography, FormControl, Select, MenuItem, InputLabel, Button, TextField } from '@mui/material';
+import { Container, Grid, Typography, FormControl, Select, MenuItem, InputLabel, Button, TextField, Alert } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch } from 'react-router-dom';
@@ -13,13 +13,14 @@ const AssignedToMe = () => {
    
     const [tickets, setTickets] = useState([]);
     const [locationId,setLocationId] =  useState("");
+    const [confirm,setConfirm] = useState(false);
     
     useEffect(() => {
         const url = `http://localhost:5000/tickets`;
         fetch(url)
           .then((res) => res.json())
           .then((data) => setTickets(data));
-      }, []);
+      }, [confirm]);
 
       let { path, url } = useRouteMatch();
       const location = useLocation();
@@ -31,8 +32,9 @@ const AssignedToMe = () => {
 
       const handleGoBack = () => {
         setLocationId("");
+        setConfirm(true)
       }
-      
+
       const assignTicket = tickets.filter((ticket) => ticket.assign == user.displayName);
   return (
     <>
@@ -129,8 +131,20 @@ const AssignedToMe = () => {
                     <Grid item xs={4}>
                     <Typography sx={{fontSize:'.6em'}}>
                        Created: {ticket.date}
-                     </Typography>
-                  
+                     </Typography  >
+                     {
+                          ticket.progress == "Working On" &&
+                          <Alert severity="info">Already working on issue</Alert>
+
+                     }
+                     {
+                          ticket.progress == "Complete" &&
+                          <Alert severity="success">congrats issue is resolved!</Alert>
+                     }
+                     {
+                         !ticket.progress &&
+                         <Alert severity="warning">This ticket need your attention</Alert>
+                     }
     
                     {/* <Button
                         onClick={() => handledelete(ticket._id)}
@@ -145,7 +159,7 @@ const AssignedToMe = () => {
                      
                     </Grid>
                     <Grid item xs={3}>
-                        {ticket.progress}
+                       
                    
                     <Link to={`${url}/${ticket._id}`}>
                     <Button onClick={handleDetails} sx={{mt:2}} variant="outlined">details</Button>

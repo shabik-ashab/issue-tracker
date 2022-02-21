@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Alert, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
@@ -11,6 +11,7 @@ const AssignTicket = () => {
 
     const [tickets, setTickets] = useState([]);
     const [users,setUsers] = useState([]);
+    const [confirm,setConfirm] = useState(false);
   
     // const [deadline,setDeadline] = React.useState({
     //   deadline:new Date(),
@@ -24,7 +25,7 @@ const AssignTicket = () => {
         fetch(url)
           .then((res) => res.json())
           .then((data) => setTickets(data));
-      }, []);
+      }, [confirm]);
 
      
 
@@ -89,6 +90,7 @@ const AssignTicket = () => {
     .then((data) => {
       if (data.modifiedCount === 1) {
         alert("changed sucessfully");
+        setConfirm(true)
       }
       // alert("");
     })
@@ -107,7 +109,7 @@ const reverseTicket = tickets.slice().reverse();
               sx={{ mb: 1, width: "100%", border: "1px solid #546e7a", p: 1 }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                  <Box display="flex" sx={{alignContent: 'center'}}>
                  <Typography  variant="h6">{ticket.title} </Typography>
                   {
@@ -173,7 +175,7 @@ const reverseTicket = tickets.slice().reverse();
                  </Typography>
                   <Typography>{ticket.details}</Typography>
                 </Grid>
-                <Grid tem xs={3}>
+                
                {/* <Box sx={{p:2}}>
                <LocalizationProvider dateAdapter={AdapterDateFns}>
  <form>
@@ -199,12 +201,25 @@ const reverseTicket = tickets.slice().reverse();
                </Box> */}
 
                
-                </Grid>
-                <Grid item xs={4}>
+                
+                <Grid item xs={5}>
+                {
+                          ticket.progress == "Working On" &&
+                          <Alert sx={{mt:1}} severity="info">{ticket.assign} Already working on issue</Alert>
+                     }
+                     {
+                          ticket.progress == "Complete" &&
+                          <Alert sx={{mt:1}} severity="success">{ticket.assign} resolved the issue</Alert>
+                     }
+                     {
+                         !ticket.progress &&
+                         <Alert severity="warning">{ticket.assign} havn't start to working</Alert>
+                     }
+    
                 {
                ticket.assign ?
                <Typography>
-                Already assigned To: { ticket.assign}
+                {/* Already assigned To: { ticket.assign} */}
              </Typography>
              :
              <Box sx={{p:1}}>
@@ -246,7 +261,7 @@ const reverseTicket = tickets.slice().reverse();
            }
                
                 </Grid>
-                <Grid item xs={2}>
+                <Grid sx={{ml:4}} item xs={2}>
                 <Typography sx={{fontSize:'.6em'}}>
                    Created: {ticket.date}
                  </Typography>
