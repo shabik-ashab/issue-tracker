@@ -4,20 +4,20 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import useAuth from '../../hooks/useAuth';
 import { Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import AddComment from './AddComment';
 
 
 const AssignTicketDetails = ({handleGoBack,tickets}) => {
     const {user} = useAuth();
-    const [loading,setLoading] = useState(false);
-    const [success,setSuccess] = useState(false);
-    const dt = new Date();
-    const stringDt = dt.toDateString();
+   
+   
+    // const dt = new Date();
+    // const stringDt = dt.toDateString();
     const [loginData, setLoginData] = React.useState({
         assign:user.displayName,
      });
 
-     const initialInfo = { name: user.displayName, email: user.email};
-     const [newData, setNewData] = useState(initialInfo);
+    
 
     const { id } = useParams();
 
@@ -34,13 +34,7 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
         setLoginData(newLoginData);
       };
 
-      const handleOnBlur = (e) => {
-        const field = e.target.name;
-        const value = e.target.value;
-        const newFormData = { ...newData };
-        newFormData[field] = value;
-        setNewData(newFormData);
-      };
+      
       const handleConfirm = (_id) => {
         //   e.preventDefault();
        
@@ -62,31 +56,7 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
           .finally();
       }
 
-      const handleSubmit = (id) =>{
-        
-        setLoading(true);
-       
-        const comment ={
-            ...newData,
-            id
-        }
-        
-        fetch('http://localhost:5000/comments', {
-              method: 'POST',
-              headers: {
-                  'content-type': 'application/json'
-              },
-             body: JSON.stringify(comment),
-          })
-              .then(res => res.json())
-              .then(data => {
-                  if (data.insertedId) {
-                      setSuccess(true);
-                      setLoading(false);
-                  }
-              })
-        
-      }
+      
       
   return (
     <>
@@ -223,19 +193,10 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
 
  {/* comment  */}
                     
- <TextField
-              sx={{
-                  mt:2
-              }} 
-              label="Add a comment..."
-              name="comment"
-              multiline
-              variant="filled"
-              onBlur={handleOnBlur}
-            />
-            <Button onClick={() => handleSubmit(ticket._id)} sx={{mt:3,ml:2}} type="submit" variant="outlined">Add Comment</Button>
-
-                   
+ <AddComment
+ user={user}
+ id = {ticket._id}
+ />     
     </Container>
     </>
   )
