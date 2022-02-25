@@ -239,6 +239,7 @@ function ResponsiveDrawer(props) {
               <Route exact path={path}>
                 <Team
                 users={users}
+                tickets={tickets}
                 />
               </Route>
               <Route path={`${path}/ticket`}>
