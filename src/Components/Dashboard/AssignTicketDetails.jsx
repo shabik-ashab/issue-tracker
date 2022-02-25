@@ -174,41 +174,48 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
   </Grid>
   <Grid item xs={6}>
   <FormControl  variant="standard" sx={{ pb: 1, minWidth: 100 }}>
-             <InputLabel >Progress status</InputLabel>
-             {
-               ticket.progress == "Working On" ? 
-               <Select
-              
-                value={loginData.progress}
-                label="Assign to"
-                onChange={handleChange}
-                name="progress"
-                id={ticket._id}
-               //  onBlur={handleOnBlur}
-              >
              
-                         <MenuItem value="Complete">Complete</MenuItem>
+            {
+              !ticket.progress == "Complete" &&
+              <>
+               <InputLabel >Progress status</InputLabel>
+              {
+                ticket.progress == "Working On" ? 
+                <Select
                
-              </Select>
-              :
-              <Select
+                 value={loginData.progress}
+                 label="Assign to"
+                 onChange={handleChange}
+                 name="progress"
+                 id={ticket._id}
+                //  onBlur={handleOnBlur}
+               >
               
-                value={loginData.progress}
-                label="Assign to"
-                onChange={handleChange}
-                name="progress"
-                id={ticket._id}
-               //  onBlur={handleOnBlur}
-              >
+                          <MenuItem value="Complete">Complete</MenuItem>
+                
+               </Select>
+               :
+               <Select
+               
+                 value={loginData.progress}
+                 label="Assign to"
+                 onChange={handleChange}
+                 name="progress"
+                 id={ticket._id}
+                //  onBlur={handleOnBlur}
+               >
+                         
+                           <MenuItem value="Working On">Working On</MenuItem>
+                          <MenuItem value="Complete">Complete</MenuItem>
                         
-                          <MenuItem value="Working On">Working On</MenuItem>
-                         <MenuItem value="Complete">Complete</MenuItem>
-                       
-                 
-              </Select>
-             }
+                  
+               </Select>
+              }
+                <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
+              </>
+            }
          
-              <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
+            
     
             </FormControl>
   </Grid>
