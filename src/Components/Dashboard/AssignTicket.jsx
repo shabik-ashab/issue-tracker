@@ -6,13 +6,9 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 
-const AssignTicket = ({users}) => {
+const AssignTicket = ({users,setConfirm,setTickets,tickets}) => {
     const {currentUser} = useAuth();
 
-    const [tickets, setTickets] = useState([]);
-   
-    const [confirm,setConfirm] = useState(false);
-  
     // const [deadline,setDeadline] = React.useState({
     //   deadline:new Date(),
     // });
@@ -20,14 +16,6 @@ const AssignTicket = ({users}) => {
        
       });
 
-    useEffect(() => {
-        const url = `http://localhost:5000/tickets`;
-        fetch(url)
-          .then((res) => res.json())
-          .then((data) => setTickets(data));
-      }, [confirm]);
-
-     
       // console.log(users);
 
     const handledelete = (id) => {
@@ -95,6 +83,8 @@ const AssignTicket = ({users}) => {
 const reverseTicket = tickets.slice().reverse();
 
 const teamTicket = reverseTicket.filter((ticket) => ticket.team == currentUser.team);
+
+const teamUsers = users.filter((u) => u.team == currentUser.team);
 
 // const [value, setValue] = React.useState(new Date());
 //    console.log(value);  
@@ -239,7 +229,7 @@ const teamTicket = reverseTicket.filter((ticket) => ticket.team == currentUser.t
            //  onBlur={handleOnBlur}
           >
             {
-                users.map((user) => (
+                teamUsers.map((user) => (
                  <MenuItem value={user.displayName}>{user.displayName}</MenuItem>
                 ))
             }

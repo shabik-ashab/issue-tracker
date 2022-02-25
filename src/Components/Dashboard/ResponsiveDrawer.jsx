@@ -32,6 +32,8 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
+  const [tickets, setTickets] = useState([]);
+  const [confirm,setConfirm] = useState(false);
   const [users,setUsers] = useState([]);
   const { currentUser, logOut } = useAuth();
 
@@ -53,6 +55,13 @@ function ResponsiveDrawer(props) {
       .then((res) => res.json())
       .then((data) => setUsers(data));
   }, []);
+
+  useEffect(() => {
+    const url = `http://localhost:5000/tickets`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setTickets(data));
+  }, [confirm]);
   
 
   const drawer = (
@@ -242,6 +251,9 @@ function ResponsiveDrawer(props) {
               <ManagerRoute path={`${path}/assign`}>
                 <AssignTicket 
                 users={users}
+                tickets={tickets}
+                setTickets={setTickets}
+                setConfirm={setConfirm}
                 />
               </ManagerRoute>
             </Switch>
