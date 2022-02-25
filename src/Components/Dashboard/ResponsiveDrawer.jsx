@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -24,6 +24,7 @@ import Ticket from "./Ticket";
 import AssignTicket from "./AssignTicket";
 import ManagerRoute from "../ManagerRoute/ManagerRoute";
 import Myticket from "./Myticket";
+import DashboardSk from "../Skeleton/DashboardSk";
 
 const drawerWidth = 240;
 
@@ -31,6 +32,7 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
+  const [users,setUsers] = useState([]);
   const { currentUser, logOut } = useAuth();
 
   // if (currentUser.email) {
@@ -44,6 +46,13 @@ function ResponsiveDrawer(props) {
   const history = useHistory();
 
   let { path, url } = useRouteMatch();
+
+  useEffect(() => {
+    const url = `http://localhost:5000/users`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+  }, []);
   
 
   const drawer = (
@@ -109,7 +118,7 @@ function ResponsiveDrawer(props) {
           <span style={{ marginLeft: "4em" }}>My Ticket </span>
         </Box>
       </Link>
-      {currentUser?.role == "manager" && (
+      {currentUser?.role === "manager" && (
         <Link
           to={`${url}/assign`}
           style={{ textDecoration: "none", color: "#1769aa" }}
@@ -138,7 +147,7 @@ function ResponsiveDrawer(props) {
   return (
     <>
       {currentUser?.email == undefined ? (
-        <CircularProgress />
+        <DashboardSk />
       ) : (
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
@@ -219,7 +228,9 @@ function ResponsiveDrawer(props) {
             <Toolbar />
             <Switch>
               <Route exact path={path}>
-                <Team />
+                <Team
+                users={users}
+                />
               </Route>
               <Route path={`${path}/ticket`}>
                 <Ticket />
@@ -229,7 +240,9 @@ function ResponsiveDrawer(props) {
               </Route>
               
               <ManagerRoute path={`${path}/assign`}>
-                <AssignTicket />
+                <AssignTicket 
+                users={users}
+                />
               </ManagerRoute>
             </Switch>
           </Box>

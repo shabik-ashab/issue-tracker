@@ -8,7 +8,7 @@ const MyTicket = ({ success }) => {
   const [tickets, setTickets] = useState([]);
   
   
-  const { user,manager } = useAuth();
+  const { user } = useAuth();
  
   useEffect(() => {
     const url = `http://localhost:5000/ticket?email=${user.email}`;

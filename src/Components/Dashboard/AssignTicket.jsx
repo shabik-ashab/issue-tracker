@@ -6,11 +6,11 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 
-const AssignTicket = () => {
+const AssignTicket = ({users}) => {
     const {currentUser} = useAuth();
 
     const [tickets, setTickets] = useState([]);
-    const [users,setUsers] = useState([]);
+   
     const [confirm,setConfirm] = useState(false);
   
     // const [deadline,setDeadline] = React.useState({
@@ -28,7 +28,7 @@ const AssignTicket = () => {
       }, [confirm]);
 
      
-
+      // console.log(users);
 
     const handledelete = (id) => {
         const confirmBox = window.confirm("Do you want to delete this ticket");
@@ -48,12 +48,7 @@ const AssignTicket = () => {
         }
       };
 
-      useEffect(() => {
-        const url = `http://localhost:5000/users?email=${currentUser.team}`;
-        fetch(url)
-          .then((res) => res.json())
-          .then((data) => setUsers(data));
-      }, []);
+    
 
       const handleChange = (e) => {
 
@@ -99,11 +94,13 @@ const AssignTicket = () => {
 
 const reverseTicket = tickets.slice().reverse();
 
+const teamTicket = reverseTicket.filter((ticket) => ticket.team == currentUser.team);
+
 // const [value, setValue] = React.useState(new Date());
 //    console.log(value);  
   return <div>
 
-{reverseTicket.map((ticket) => (
+{teamTicket.map((ticket) => (
             <Box
              key={ticket._id}
               sx={{ mb: 1, width: "100%", border: "1px solid #546e7a", p: 1 }}
@@ -203,6 +200,12 @@ const reverseTicket = tickets.slice().reverse();
                
                 
                 <Grid item xs={5}>
+               
+    
+                {
+               ticket.assign ?
+               <Box>
+                {/* Already assigned To: { ticket.assign} */}
                 {
                           ticket.progress == "Working On" &&
                           <Alert sx={{mt:1}} severity="info">{ticket.assign} Already working on issue</Alert>
@@ -213,14 +216,9 @@ const reverseTicket = tickets.slice().reverse();
                      }
                      {
                          !ticket.progress &&
-                         <Alert severity="warning">{ticket.assign} havn't start to working</Alert>
+                         <Alert sx={{mt:1}} severity="warning">{ticket.assign} havn't start to working</Alert>
                      }
-    
-                {
-               ticket.assign ?
-               <Typography>
-                {/* Already assigned To: { ticket.assign} */}
-             </Typography>
+             </Box>
              :
              <Box sx={{p:1}}>
 

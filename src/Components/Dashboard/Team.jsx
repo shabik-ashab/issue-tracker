@@ -1,11 +1,18 @@
-import React from 'react'
+import { Grid } from "@mui/material";
+import React from "react";
 
-const Team = () => {
-    return (
-        <div>
-            team
-        </div>
-    )
-}
+import DashboardSk from "../Skeleton/DashboardSk";
 
-export default Team
+const Team = ({ users }) => {
+  return (
+    <>
+      team
+      <Grid container spacing={2}>
+        <Grid item md={6} xs={12}></Grid>
+        <Grid item md={6} xs={12}></Grid>
+      </Grid>
+    </>
+  );
+};
+
+export default Team;

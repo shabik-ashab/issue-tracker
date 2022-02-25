@@ -134,16 +134,16 @@ const AssignedToMe = () => {
                      </Typography  >
                      {
                           ticket.progress == "Working On" &&
-                          <Alert severity="info">Already working on issue</Alert>
+                          <Alert severity="info">Already working on </Alert>
 
                      }
                      {
                           ticket.progress == "Complete" &&
-                          <Alert severity="success">congrats issue is resolved!</Alert>
+                          <Alert severity="success">issue is resolved!</Alert>
                      }
                      {
                          !ticket.progress &&
-                         <Alert severity="warning">This ticket need your attention</Alert>
+                         <Alert severity="warning"> Ticket need  attention!</Alert>
                      }
     
                     {/* <Button

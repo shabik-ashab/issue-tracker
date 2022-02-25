@@ -2,10 +2,11 @@ import { CircularProgress } from '@mui/material';
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import DashboardSk from '../Skeleton/DashboardSk';
 
 const PrivateRoute = ({ children, ...rest }) => {
     const { user, isLoading } = useAuth();
-    if (isLoading) { return <CircularProgress /> }
+    if (isLoading) { return <DashboardSk /> }
     return (
         <Route
             {...rest}
