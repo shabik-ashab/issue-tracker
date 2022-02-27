@@ -3,14 +3,17 @@ import React from "react";
 import AssignedToMe from "./AssignedToMe";
 import MyTicket from "./MyTicket";
 
-const Myticket = (props) => {
+const Myticket = ({ myTickets,setMyTickets }) => {
 
-    console.log(props.location);
+  
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-         <MyTicket />
+         <MyTicket 
+          myTickets={myTickets}
+          setMyTickets={setMyTickets}
+         />
         </Grid>
         <Grid item xs={6}>
           <AssignedToMe />

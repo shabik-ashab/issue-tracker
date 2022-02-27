@@ -8,11 +8,11 @@ import MyTicket from './MyTicket';
 import Select from '@mui/material/Select';
 
 
-const Ticket = () => {
+const Ticket = ({success,setSuccess,myTickets,setMyTickets}) => {
     const { user,currentUser } = useAuth();
    
 
-    const [success,setSuccess] = useState(false);
+    
     const [urgency, setUrgency] = React.useState('');
   
     const dt = new Date();
@@ -151,7 +151,10 @@ const Ticket = () => {
   </Grid>
   <Grid item  xs={12} md={7}>
    
-    <MyTicket success={success} key={success} />
+    <MyTicket 
+     myTickets={myTickets}
+     setMyTickets={setMyTickets}
+    />
   </Grid>
  
 </Grid>

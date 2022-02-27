@@ -31,16 +31,23 @@ const drawerWidth = 240;
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+  const [success,setSuccess] = useState(false);
   const [tickets, setTickets] = useState([]);
   const [confirm,setConfirm] = useState(false);
   const [users,setUsers] = useState([]);
-  const { currentUser, logOut } = useAuth();
+  const { currentUser, logOut,user } = useAuth();
+  const [myTickets, setMyTickets] = useState([]);
 
   // if (currentUser.email) {
   //   setLoading(false);
   // }
 
+  useEffect(() => {
+    const url = `http://localhost:5000/ticket?email=${user.email}`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setMyTickets(data));
+  }, [success]);
   
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -236,17 +243,25 @@ function ResponsiveDrawer(props) {
           >
             <Toolbar />
             <Switch>
-              <Route exact path={path}>
+              <Route path={path}>
                 <Team
                 users={users}
                 tickets={tickets}
                 />
               </Route>
               <Route path={`${path}/ticket`}>
-                <Ticket />
+                <Ticket 
+                success={success}
+                setSuccess={setSuccess}
+                myTickets={myTickets}
+                setMyTickets={setMyTickets}
+                />
               </Route>
               <Route path={`${path}/myTicket`}>
-                <Myticket />
+                <Myticket
+                myTickets={myTickets}
+                setMyTickets={setMyTickets}
+                />
               </Route>
               
               <ManagerRoute path={`${path}/assign`}>

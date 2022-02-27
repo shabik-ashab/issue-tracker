@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 
 const AddComment = ({ user, id }) => {
-  const [success, setSuccess] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState([]);
 
@@ -18,7 +18,9 @@ const AddComment = ({ user, id }) => {
   }, [loading]);
 
   const commentOnTicket = comments.filter((c) => c.id == id);
-  console.log(commentOnTicket);
+
+  const reverseTicket = commentOnTicket.slice().reverse();
+
   const handleOnBlur = (e) => {
     const field = e.target.name;
     const value = e.target.value;
@@ -30,10 +32,10 @@ const AddComment = ({ user, id }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    if(!newData.comment){
-        alert('Please write something!');
-        setLoading(false);
-        return;
+    if (!newData.comment) {
+      alert("Please write something!");
+      setLoading(false);
+      return;
     }
 
     fetch("http://localhost:5000/comments", {
@@ -47,10 +49,8 @@ const AddComment = ({ user, id }) => {
       .then((data) => {
         if (data.insertedId) {
           e.target.reset();
-          setNewData("")
-          setSuccess(true);
+          setNewData("");
           setLoading(false);
-          
         }
       });
   };
@@ -83,23 +83,20 @@ const AddComment = ({ user, id }) => {
       </Box>
 
       <Box>
-          {
-              commentOnTicket.map((comment) => (
-                  <Box sx={{backgroundColor: "#e0e0e0",m:1,p:2,width:'40%'}}>
-                    <Typography sx={{fontSize:'.7em',}}>
-                        {comment.name}
-                    </Typography>
-                    <Typography >
-                        {comment.comment}
-                    </Typography>
-                    
-                  </Box>
-              ))
-          }
-          {
-                        loading &&
-                        <Skeleton sx={{m:1}} variant="rectangular" width="40%"  height={80} />
-                    }
+        {loading && (
+          <Skeleton
+            sx={{ m: 1 }}
+            variant="rectangular"
+            width="40%"
+            height={80}
+          />
+        )}
+        {reverseTicket.map((comment) => (
+          <Box sx={{ backgroundColor: "#e0e0e0", m: 1, p: 2, width: "40%" }}>
+            <Typography sx={{ fontSize: ".7em" }}>{comment.name}</Typography>
+            <Typography>{comment.comment}</Typography>
+          </Box>
+        ))}
       </Box>
     </>
   );

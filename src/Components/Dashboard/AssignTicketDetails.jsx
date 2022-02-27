@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import useAuth from '../../hooks/useAuth';
 import { Box } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 import AddComment from './AddComment';
 
 

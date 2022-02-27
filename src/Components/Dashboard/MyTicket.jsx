@@ -1,24 +1,12 @@
 import { Button, Container, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
 import { Grid } from "@mui/material";
 
-const MyTicket = ({ success }) => {
-  const [tickets, setTickets] = useState([]);
-  
-  
-  const { user } = useAuth();
+const MyTicket = ({ myTickets,setMyTickets }) => {
  
-  useEffect(() => {
-    const url = `http://localhost:5000/ticket?email=${user.email}`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setTickets(data));
-  }, [success]);
-
-
- 
+  const reverseTicket = myTickets.slice().reverse();
+  
 
   const handledelete = (id) => {
     const confirmBox = window.confirm("Do you want to delete this ticket");
@@ -31,8 +19,8 @@ const MyTicket = ({ success }) => {
         .then((data) => {
           if (data.deletedCount > 0) {
             alert("deleted sucessfully");
-            const remaining = tickets.filter((pd) => pd._id !== id);
-            setTickets(remaining);
+            const remaining = myTickets.filter((pd) => pd._id !== id);
+            setMyTickets(remaining);
           }
         });
     }
@@ -46,7 +34,7 @@ const MyTicket = ({ success }) => {
         <Typography textAlign="center"  sx={{mb:5,mt:2}} variant='h3'>
         My Tickets
     </Typography>
-          {tickets.map((ticket) => (
+          {reverseTicket.map((ticket) => (
             <Box
               sx={{ mb: 1, width: "100%", border: "1px solid #546e7a", p: 1 }}
             >

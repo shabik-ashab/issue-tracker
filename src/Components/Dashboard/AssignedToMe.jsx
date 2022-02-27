@@ -12,7 +12,7 @@ const AssignedToMe = () => {
     const {user} = useAuth();
    
     const [tickets, setTickets] = useState([]);
-    const [locationId,setLocationId] =  useState("");
+    const [locationId,setLocationId] =  useState(false);
     const [confirm,setConfirm] = useState(false);
     
     useEffect(() => {
@@ -23,15 +23,13 @@ const AssignedToMe = () => {
       }, [confirm]);
 
       let { path, url } = useRouteMatch();
-      const location = useLocation();
-      const locatioId = location.pathname.slice(16,20);
 
       const handleDetails = () => {
-        setLocationId(locatioId);
+        setLocationId(true);
       }
 
       const handleGoBack = () => {
-        setLocationId("");
+        setLocationId(false);
         setConfirm(true)
       }
 
