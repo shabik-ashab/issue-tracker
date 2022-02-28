@@ -35,6 +35,7 @@ const AssignedToMe = ({tickets,setConfirm}) => {
            <AssignTicketDetails 
            handleGoBack={handleGoBack}
            tickets={tickets}
+           setConfirm={setConfirm}
            />
         </Route>
       </Switch>

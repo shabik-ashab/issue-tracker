@@ -1,12 +1,12 @@
 import { Container, Grid, Typography, FormControl, Select, MenuItem, InputLabel, Button, TextField } from '@mui/material';
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import useAuth from '../../hooks/useAuth';
 import { Box } from '@mui/material';
 import AddComment from './AddComment';
 
 
-const AssignTicketDetails = ({handleGoBack,tickets}) => {
+const AssignTicketDetails = ({handleGoBack,tickets,setConfirm}) => {
     const {user} = useAuth();
    
    
@@ -21,6 +21,20 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
     const { id } = useParams();
 
     const ticket = tickets.find((t) => t._id == id);
+
+    const location = useLocation();
+
+    const pathName = location.pathname.slice(0,8);
+    console.log(pathName);
+    let mystyle = {
+      display: "block",
+    };
+
+    if(pathName == "/dash/as"){
+      mystyle = {
+        display: "none",
+      };
+    }
 
 
     const handleChange = (e) => {
@@ -50,12 +64,12 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
             if (data.modifiedCount === 1) {
               alert("changed sucessfully");
             }
+            setConfirm(true);
             // alert("");
           })
           .finally();
       }
 
-      console.log(ticket);
       
   return (
     <>
@@ -142,59 +156,62 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
                     </Typography>
   </Grid>
   <Grid item xs={6}>
-  <FormControl  variant="standard" sx={{ pb: 1, minWidth: 100 }}>
+    <Box style={mystyle}>
+    <FormControl   variant="standard" sx={{ pb: 1, minWidth: 100 }}>
              
 
               
-              {
-                ticket.progress == "Working On" && 
-                <>
-                 <InputLabel >Progress status</InputLabel>
-                 <Select
-               
-               value={loginData.progress}
-               label="Assign to"
-               onChange={handleChange}
-               name="progress"
-               id={ticket._id}
-              //  onBlur={handleOnBlur}
-             >
-            
-                        <MenuItem value="Complete">Complete</MenuItem>
+             {
+               ticket.progress == "Working On" && 
+               <>
+                <InputLabel >Progress status</InputLabel>
+                <Select
               
-             </Select>
-             <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
-                </>
-               
+              value={loginData.progress}
+              label="Assign to"
+              onChange={handleChange}
+              name="progress"
+              id={ticket._id}
+             //  onBlur={handleOnBlur}
+            >
+           
+                       <MenuItem value="Complete">Complete</MenuItem>
+             
+            </Select>
+            <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
+               </>
+              
 }
 {
-            ticket.progress == null &&
-            <>
-             <InputLabel >Progress status</InputLabel>
-              <Select
-               
-               value={loginData.progress}
-               label="Assign to"
-               onChange={handleChange}
-               name="progress"
-               id={ticket._id}
-              //  onBlur={handleOnBlur}
-             >
-                       
-                         <MenuItem value="Working On">Working On</MenuItem>
-                        <MenuItem value="Complete">Complete</MenuItem>
+           ticket.progress == null &&
+           <>
+            <InputLabel >Progress status</InputLabel>
+             <Select
+              
+              value={loginData.progress}
+              label="Assign to"
+              onChange={handleChange}
+              name="progress"
+              id={ticket._id}
+             //  onBlur={handleOnBlur}
+            >
                       
-                
-             </Select>
-             <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
-            </>
-             
-              }
+                        <MenuItem value="Working On">Working On</MenuItem>
+                       <MenuItem value="Complete">Complete</MenuItem>
+                     
                
-             
+            </Select>
+            <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
+           </>
             
-    
-            </FormControl>
+             }
+              
+            
+           
+   
+           </FormControl>
+    </Box>
+ 
   </Grid>
 </Grid>
 
