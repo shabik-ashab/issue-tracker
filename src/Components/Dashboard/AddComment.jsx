@@ -55,6 +55,8 @@ const AddComment = ({ user, id }) => {
       });
   };
 
+  console.log(id);
+
   return (
     <>
       <form onSubmit={handleSubmit}>

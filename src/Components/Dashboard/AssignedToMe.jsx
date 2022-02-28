@@ -8,19 +8,12 @@ import AssignTicketDetails from './AssignTicketDetails';
 import { useLocation } from 'react-router-dom';
 
 
-const AssignedToMe = () => {
+const AssignedToMe = ({tickets}) => {
     const {user} = useAuth();
    
-    const [tickets, setTickets] = useState([]);
     const [locationId,setLocationId] =  useState(false);
     const [confirm,setConfirm] = useState(false);
-    
-    useEffect(() => {
-        const url = `http://localhost:5000/tickets`;
-        fetch(url)
-          .then((res) => res.json())
-          .then((data) => setTickets(data));
-      }, [confirm]);
+
 
       let { path, url } = useRouteMatch();
 
@@ -30,7 +23,7 @@ const AssignedToMe = () => {
 
       const handleGoBack = () => {
         setLocationId(false);
-        setConfirm(true)
+        // setConfirm(true)
       }
 
       const assignTicket = tickets.filter((ticket) => ticket.assign == user.displayName);

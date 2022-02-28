@@ -5,9 +5,12 @@ import useAuth from '../../hooks/useAuth';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import { useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 
 const AssignTicket = ({users,setConfirm,setTickets,tickets}) => {
     const {currentUser} = useAuth();
+
+    const [locationId,setLocationId] =  useState(false);
 
     // const [deadline,setDeadline] = React.useState({
     //   deadline:new Date(),
@@ -35,6 +38,19 @@ const AssignTicket = ({users,setConfirm,setTickets,tickets}) => {
             });
         }
       };
+
+
+      let { path, url } = useRouteMatch();
+
+      const handleDetails = () => {
+        setLocationId(true);
+      }
+
+      const handleGoBack = () => {
+        setLocationId(false);
+        setConfirm(true)
+      }
+
 
     
 
@@ -88,7 +104,11 @@ const teamUsers = users.filter((u) => u.team == currentUser.team);
 
 // const [value, setValue] = React.useState(new Date());
 //    console.log(value);  
-  return <div>
+  return <>
+  {
+    
+  }
+  <div>
 
 {teamTicket.map((ticket) => (
             <Box
@@ -194,20 +214,24 @@ const teamUsers = users.filter((u) => u.team == currentUser.team);
     
                 {
                ticket.assign ?
-               <Box>
+               <Box display="flex" sx={{ alignItems: 'center' }}>
+                  <Box>
+                       ok
+                     </Box>
                 {/* Already assigned To: { ticket.assign} */}
                 {
                           ticket.progress == "Working On" &&
-                          <Alert sx={{mt:1}} severity="info">{ticket.assign} Already working on issue</Alert>
+                          <Alert sx={{m:1}} severity="info">{ticket.assign} Already working on issue</Alert>
                      }
                      {
                           ticket.progress == "Complete" &&
-                          <Alert sx={{mt:1}} severity="success">{ticket.assign} resolved the issue</Alert>
+                          <Alert sx={{m:1}} severity="success">{ticket.assign} resolved the issue</Alert>
                      }
                      {
                          !ticket.progress &&
-                         <Alert sx={{mt:1}} severity="warning">{ticket.assign} havn't start to working</Alert>
+                         <Alert sx={{m:1}} severity="warning">{ticket.assign} havn't start to working</Alert>
                      }
+                    
              </Box>
              :
              <Box sx={{p:1}}>
@@ -269,7 +293,8 @@ const teamUsers = users.filter((u) => u.team == currentUser.team);
               </Grid>
             </Box>
           ))}
-  </div>;
+  </div>
+  </> 
 };
 
 export default AssignTicket;

@@ -5,14 +5,27 @@ import { Link, Route, Switch } from 'react-router-dom';
 import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
 import useAuth from "../../hooks/useAuth";
 import AssignTicketDetails from './AssignTicketDetails';
+import Modal from '@mui/material/Modal';
+import AddComment from "./AddComment";
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'white',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 
 const Team = ({ users,tickets }) => {
-    const {currentUser} = useAuth();
+    const {currentUser,user} = useAuth();
     const teamUsers = users.filter((u) => u.team == currentUser.team);
     const teamTickets = tickets.filter((t) => t.team  == currentUser.team);
-
-    const [locationId,setLocationId] =  useState(false);
+  
 
     const ticketCount = teamTickets.length;
 
@@ -33,16 +46,6 @@ const Team = ({ users,tickets }) => {
     }
     const result = Math.round((Progresscount/ ticketCount) * 100);
 
-    let { path, url } = useRouteMatch();
-
-      const handleDetails = () => {
-        setLocationId(true);
-      }
-
-      const handleGoBack = () => {
-        setLocationId(false);
-      }
-console.log(url);
   return (
     <>
       <Grid container spacing={4}>
@@ -76,8 +79,8 @@ console.log(url);
               }  
          </Box>
         </Grid>
-        <Grid item md={6} xs={12}>
-            {
+        <Grid item md={5} xs={12}>
+            {/* {
                 locationId ?
                 <Switch>
                 <Route path={`${path}/:id`}>
@@ -87,7 +90,7 @@ console.log(url);
                    />
                 </Route>
               </Switch>
-                :
+                : */}
                 <Box>
        <Typography textAlign="center"  sx={{mb:5,mt:2}} variant='h3'>
         Team Tickets
@@ -177,27 +180,38 @@ console.log(url);
                         <Typography sx={{fontSize:'.6em'}}>
                            Created: {ticket.date}
                          </Typography>
-                         <Link to={`${url}/${ticket._id}`}>
-                        <Button
+                         {/* <Link to={`${url}/${ticket._id}`}> */}
+                        {/* <Button
                             // onClick={() => handledelete(ticket._id)}
                             variant="outlined"
                             color="primary"
                             size="small"
-                            onClick={handleDetails}
+                            onClick={handleOpen}
                             sx={{
                               
                             }}
                           >
                             Add comments
-                          </Button>
-                          </Link>
+                          </Button> */}
+                          {/* </Link> */}
+                          
+                              
+                              <Typography>
+                                { ticket.progress}
+                              </Typography>
+                          
+               
                          
                         </Grid>
                       </Grid>
+
+                   
                     </Box>
                   ))}
        </Box>
-            }
+            {/* } */}
+
+           
        
             
         </Grid>

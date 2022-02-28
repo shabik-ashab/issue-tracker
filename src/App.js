@@ -32,9 +32,6 @@ function App() {
         <PrivateRoute exact path="/choose"> 
           <Choose />
         </PrivateRoute>
-        <Route exact path="/login">
-          <Login />
-        </Route>
        
         <PrivateRoute  path="/dash">
           <ResponsiveDrawer />

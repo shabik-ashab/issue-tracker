@@ -94,8 +94,9 @@ function ResponsiveDrawer(props) {
             p: 1,
             m: 1,
           }}
+          textAlign="center"
         >
-          <span style={{ marginLeft: "4em" }}> My Team</span>
+          <span > My Team</span>
         </Box>
       </Link>
       <Link
@@ -112,8 +113,9 @@ function ResponsiveDrawer(props) {
             p: 1,
             m: 1,
           }}
+          textAlign="center"
         >
-          <span style={{ marginLeft: "4em" }}>Create Ticket </span>
+          <span>Create Ticket </span>
         </Box>
       </Link>
       <Link
@@ -130,8 +132,9 @@ function ResponsiveDrawer(props) {
             p: 1,
             m: 1,
           }}
+          textAlign="center"
         >
-          <span style={{ marginLeft: "4em" }}>My Ticket </span>
+          <span >My Ticket </span>
         </Box>
       </Link>
       {currentUser?.role === "manager" && (
@@ -148,9 +151,11 @@ function ResponsiveDrawer(props) {
               },
               p: 1,
               m: 1,
+              
             }}
+            textAlign="center"
           >
-            <span style={{ marginLeft: "4em" }}> Assign Ticket </span>
+            <span  > Assign Ticket </span>
           </Box>
         </Link>
       )}
@@ -243,7 +248,7 @@ function ResponsiveDrawer(props) {
           >
             <Toolbar />
             <Switch>
-              <Route path={path}>
+              <Route exact path={path}>
                 <Team
                 users={users}
                 tickets={tickets}
@@ -261,6 +266,7 @@ function ResponsiveDrawer(props) {
                 <Myticket
                 myTickets={myTickets}
                 setMyTickets={setMyTickets}
+                tickets={tickets}
                 />
               </Route>
               

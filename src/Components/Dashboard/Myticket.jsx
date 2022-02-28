@@ -3,7 +3,7 @@ import React from "react";
 import AssignedToMe from "./AssignedToMe";
 import MyTicket from "./MyTicket";
 
-const Myticket = ({ myTickets,setMyTickets }) => {
+const Myticket = ({ myTickets,setMyTickets,tickets }) => {
 
   
   return (
@@ -16,7 +16,9 @@ const Myticket = ({ myTickets,setMyTickets }) => {
          />
         </Grid>
         <Grid item xs={6}>
-          <AssignedToMe />
+          <AssignedToMe
+          tickets={tickets}
+          />
         </Grid>
       </Grid>
     </>
