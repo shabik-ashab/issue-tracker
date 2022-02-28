@@ -267,6 +267,7 @@ function ResponsiveDrawer(props) {
                 myTickets={myTickets}
                 setMyTickets={setMyTickets}
                 tickets={tickets}
+                setConfirm={setConfirm}
                 />
               </Route>
               
@@ -274,6 +275,7 @@ function ResponsiveDrawer(props) {
                 <AssignTicket 
                 users={users}
                 tickets={tickets}
+                
                 setTickets={setTickets}
                 setConfirm={setConfirm}
                 />

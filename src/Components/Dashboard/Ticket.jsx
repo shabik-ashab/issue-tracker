@@ -40,6 +40,7 @@ const Ticket = ({success,setSuccess,myTickets,setMyTickets}) => {
 
     const handleSubmit = (e) =>{
       e.preventDefault();
+      setSuccess(false);
       fetch('http://localhost:5000/tickets', {
             method: 'POST',
             headers: {

@@ -8,22 +8,21 @@ import AssignTicketDetails from './AssignTicketDetails';
 import { useLocation } from 'react-router-dom';
 
 
-const AssignedToMe = ({tickets}) => {
+const AssignedToMe = ({tickets,setConfirm}) => {
     const {user} = useAuth();
    
     const [locationId,setLocationId] =  useState(false);
-    const [confirm,setConfirm] = useState(false);
-
 
       let { path, url } = useRouteMatch();
 
       const handleDetails = () => {
         setLocationId(true);
+        setConfirm(false);
       }
 
       const handleGoBack = () => {
         setLocationId(false);
-        // setConfirm(true)
+        setConfirm(true);
       }
 
       const assignTicket = tickets.filter((ticket) => ticket.assign == user.displayName);

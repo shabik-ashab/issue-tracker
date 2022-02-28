@@ -6,6 +6,8 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, Route, Switch } from 'react-router-dom';
+import AssignTicketDetails from './AssignTicketDetails';
 
 const AssignTicket = ({users,setConfirm,setTickets,tickets}) => {
     const {currentUser} = useAuth();
@@ -77,6 +79,7 @@ const AssignTicket = ({users,setConfirm,setTickets,tickets}) => {
 
   const handleConfirm = (id) => {
   //   e.preventDefault();
+  setConfirm(false);
   const url = `http://localhost:5000/tickets/${id}`;
   fetch(url, {
     method: "PUT",
@@ -106,9 +109,17 @@ const teamUsers = users.filter((u) => u.team == currentUser.team);
 //    console.log(value);  
   return <>
   {
-    
-  }
-  <div>
+    locationId ?
+    <Switch>
+    <Route path={`${path}/:id`}>
+       <AssignTicketDetails 
+       handleGoBack={handleGoBack}
+       tickets={tickets}
+       />
+    </Route>
+  </Switch>
+    :
+    <div>
 
 {teamTicket.map((ticket) => (
             <Box
@@ -216,7 +227,9 @@ const teamUsers = users.filter((u) => u.team == currentUser.team);
                ticket.assign ?
                <Box display="flex" sx={{ alignItems: 'center' }}>
                   <Box>
-                       ok
+                  <Link to={`${url}/${ticket._id}`}>
+                    <Button onClick={handleDetails} sx={{mt:2}} variant="outlined">details</Button>
+                    </Link>
                      </Box>
                 {/* Already assigned To: { ticket.assign} */}
                 {
@@ -294,6 +307,8 @@ const teamUsers = users.filter((u) => u.team == currentUser.team);
             </Box>
           ))}
   </div>
+  }
+  
   </> 
 };
 

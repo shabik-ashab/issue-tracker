@@ -36,6 +36,7 @@ const MyTicket = ({ myTickets,setMyTickets }) => {
     </Typography>
           {reverseTicket.map((ticket) => (
             <Box
+            key={ticket._id}
               sx={{ mb: 1, width: "100%", border: "1px solid #546e7a", p: 1 }}
             >
               <Grid container spacing={2}>

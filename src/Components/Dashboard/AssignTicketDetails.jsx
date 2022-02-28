@@ -12,7 +12,7 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
    
     // const dt = new Date();
     // const stringDt = dt.toDateString();
-    const [loginData, setLoginData] = React.useState({
+    const [loginData, setLoginData] = useState({
         assign:user.displayName,
      });
 
@@ -55,7 +55,7 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
           .finally();
       }
 
-      
+      console.log(ticket);
       
   return (
     <>
@@ -144,46 +144,54 @@ const AssignTicketDetails = ({handleGoBack,tickets}) => {
   <Grid item xs={6}>
   <FormControl  variant="standard" sx={{ pb: 1, minWidth: 100 }}>
              
-            {
-              !ticket.progress == "Complete" &&
-              <>
-               <InputLabel >Progress status</InputLabel>
-              {
-                ticket.progress == "Working On" ? 
-                <Select
-               
-                 value={loginData.progress}
-                 label="Assign to"
-                 onChange={handleChange}
-                 name="progress"
-                 id={ticket._id}
-                //  onBlur={handleOnBlur}
-               >
+
               
-                          <MenuItem value="Complete">Complete</MenuItem>
-                
-               </Select>
-               :
-               <Select
+              {
+                ticket.progress == "Working On" && 
+                <>
+                 <InputLabel >Progress status</InputLabel>
+                 <Select
                
-                 value={loginData.progress}
-                 label="Assign to"
-                 onChange={handleChange}
-                 name="progress"
-                 id={ticket._id}
-                //  onBlur={handleOnBlur}
-               >
-                         
-                           <MenuItem value="Working On">Working On</MenuItem>
-                          <MenuItem value="Complete">Complete</MenuItem>
-                        
-                  
-               </Select>
+               value={loginData.progress}
+               label="Assign to"
+               onChange={handleChange}
+               name="progress"
+               id={ticket._id}
+              //  onBlur={handleOnBlur}
+             >
+            
+                        <MenuItem value="Complete">Complete</MenuItem>
+              
+             </Select>
+             <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
+                </>
+               
+}
+{
+            ticket.progress == null &&
+            <>
+             <InputLabel >Progress status</InputLabel>
+              <Select
+               
+               value={loginData.progress}
+               label="Assign to"
+               onChange={handleChange}
+               name="progress"
+               id={ticket._id}
+              //  onBlur={handleOnBlur}
+             >
+                       
+                         <MenuItem value="Working On">Working On</MenuItem>
+                        <MenuItem value="Complete">Complete</MenuItem>
+                      
+                
+             </Select>
+             <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
+            </>
+             
               }
-                <Button sx={{mt:2}} onClick={() => handleConfirm(ticket._id)} variant="outlined">confirm</Button>
-              </>
-            }
-         
+               
+             
             
     
             </FormControl>
