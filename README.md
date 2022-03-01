@@ -1,3 +1,36 @@
+## Folder Structure for components
+
+...
+.
+├── AdminRoute
+│   └── ManagerRoute.js
+├── Choose.jsx
+├── Dashboard
+│   ├── AddComment.jsx
+│   ├── AssignedToMe.jsx
+│   ├── AssignTicketDetails.jsx
+│   ├── AssignTicket.jsx
+│   ├── Myticket.jsx
+│   ├── MyTicket.jsx
+│   ├── ResponsiveDrawer.jsx
+│   ├── Team.jsx
+│   └── Ticket.jsx
+├── Header.jsx
+├── Login.jsx
+├── ManagerRoute
+│   └── ManagerRoute.js
+├── PrivateRoute
+│   └── PrivateRoute.js
+├── Register.jsx
+├── SelectTeam.jsx
+└── Skeleton
+    └── DashboardSk.jsx
+...
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
