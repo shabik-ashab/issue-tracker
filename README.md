@@ -27,8 +27,12 @@
     └── DashboardSk.jsx
 
 ```
+### Backend Repo
+https://github.com/shabik-ashab/issue-tracker-server
 
+### Live Site
 
+https://issue-tracker-db281.web.app/
 
 
 
