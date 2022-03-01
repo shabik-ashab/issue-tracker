@@ -3,7 +3,6 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 
 const AddComment = ({ user, id }) => {
-
   const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState([]);
 
@@ -11,7 +10,7 @@ const AddComment = ({ user, id }) => {
   const [newData, setNewData] = useState(initialInfo);
 
   useEffect(() => {
-    const url = `http://localhost:5000/comments`;
+    const url = `https://sleepy-lowlands-62924.herokuapp.com/comments`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => setComments(data));
@@ -38,7 +37,7 @@ const AddComment = ({ user, id }) => {
       return;
     }
 
-    fetch("http://localhost:5000/comments", {
+    fetch("https://sleepy-lowlands-62924.herokuapp.com/comments", {
       method: "POST",
       headers: {
         "content-type": "application/json",

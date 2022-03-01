@@ -8,7 +8,6 @@ initializeAuthentication();
 const useFirebase = () => {
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [admin, setAdmin] = useState(false);
     const [authError, setAuthError] = useState('');
 
     const [currentUsr,setCurrentuser]= useState([]);
@@ -111,7 +110,7 @@ const useFirebase = () => {
     }
     const saveUser = (email, displayName, method) => {
         const user = { email, displayName };
-        fetch('http://localhost:5000/users', {
+        fetch('https://sleepy-lowlands-62924.herokuapp.com/users', {
             method: method,
             headers: {
                 'content-type': 'application/json'
@@ -122,7 +121,7 @@ const useFirebase = () => {
     }
 
     // useEffect(() => {
-    //     fetch('http://localhost:5000/users') 
+    //     fetch('https://sleepy-lowlands-62924.herokuapp.com/users') 
     //     .then((res) => res.json())
     //       .then((data) => {
     //         setUsers(data);
@@ -130,14 +129,14 @@ const useFirebase = () => {
     //   }, [user.email,authError])
 
       useEffect(() => {
-        const url = `http://localhost:5000/user?email=${user.email}`;
+        const url = `https://sleepy-lowlands-62924.herokuapp.com/user?email=${user.email}`;
         fetch(url)
           .then((res) => res.json())
           .then((data) => setCurrentuser(data));
       }, [user.email,authError]);
 
     // useEffect(() => {
-    //     fetch(`http://localhost:5000/users/${user.email}`)
+    //     fetch(`https://sleepy-lowlands-62924.herokuapp.com/users/${user.email}`)
     //         .then(res => res.json())
     //         .then(data => setManager(data.manager))
     // }, [user.email])
@@ -145,7 +144,6 @@ const useFirebase = () => {
     return {
         user,
         isLoading,
-        admin,
         signInUsingGoogle,
         registerUser ,
         loginUser,

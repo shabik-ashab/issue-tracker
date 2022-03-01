@@ -31,11 +31,11 @@ const drawerWidth = 240;
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [success,setSuccess] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [tickets, setTickets] = useState([]);
-  const [confirm,setConfirm] = useState(false);
-  const [users,setUsers] = useState([]);
-  const { currentUser, logOut,user } = useAuth();
+  const [confirm, setConfirm] = useState(false);
+  const [users, setUsers] = useState([]);
+  const { currentUser, logOut, user } = useAuth();
   const [myTickets, setMyTickets] = useState([]);
 
   // if (currentUser.email) {
@@ -43,12 +43,12 @@ function ResponsiveDrawer(props) {
   // }
 
   useEffect(() => {
-    const url = `http://localhost:5000/ticket?email=${user.email}`;
+    const url = `https://sleepy-lowlands-62924.herokuapp.com/ticket?email=${user.email}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => setMyTickets(data));
   }, [success]);
-  
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -57,19 +57,18 @@ function ResponsiveDrawer(props) {
   let { path, url } = useRouteMatch();
 
   useEffect(() => {
-    const url = `http://localhost:5000/users`;
+    const url = `https://sleepy-lowlands-62924.herokuapp.com/users`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => setUsers(data));
   }, []);
 
   useEffect(() => {
-    const url = `http://localhost:5000/tickets`;
+    const url = `https://sleepy-lowlands-62924.herokuapp.com/tickets`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => setTickets(data));
   }, [confirm]);
-  
 
   const drawer = (
     <div>
@@ -78,7 +77,6 @@ function ResponsiveDrawer(props) {
           Name: {currentUser?.displayName}
           <Button onClick={() => logOut(history)}>logout</Button>
         </Typography>
-       
       </Box>
 
       <Toolbar />
@@ -96,7 +94,7 @@ function ResponsiveDrawer(props) {
           }}
           textAlign="center"
         >
-          <span > My Team</span>
+          <span> My Team</span>
         </Box>
       </Link>
       <Link
@@ -134,7 +132,7 @@ function ResponsiveDrawer(props) {
           }}
           textAlign="center"
         >
-          <span >My Ticket </span>
+          <span>My Ticket </span>
         </Box>
       </Link>
       {currentUser?.role === "manager" && (
@@ -151,11 +149,10 @@ function ResponsiveDrawer(props) {
               },
               p: 1,
               m: 1,
-              
             }}
             textAlign="center"
           >
-            <span  > Assign Ticket </span>
+            <span> Assign Ticket </span>
           </Box>
         </Link>
       )}
@@ -178,9 +175,9 @@ function ResponsiveDrawer(props) {
               width: { sm: `calc(100% - ${drawerWidth}px)` },
               ml: { sm: `${drawerWidth}px` },
               pb: 1,
-              backgroundColor:"white",
-              boxShadow:'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px',
-              color:'black'
+              backgroundColor: "white",
+              boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+              color: "black",
             }}
           >
             <Toolbar>
@@ -193,11 +190,12 @@ function ResponsiveDrawer(props) {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography  noWrap component="div">
+              <Typography noWrap component="div">
                 Dashboard
-                <Typography variant="h6">My Team: {currentUser?.team}</Typography>
+                <Typography variant="h6">
+                  My Team: {currentUser?.team}
+                </Typography>
               </Typography>
-              
             </Toolbar>
           </AppBar>
           <Box
@@ -249,35 +247,31 @@ function ResponsiveDrawer(props) {
             <Toolbar />
             <Switch>
               <Route exact path={path}>
-                <Team
-                users={users}
-                tickets={tickets}
-                />
+                <Team users={users} tickets={tickets} />
               </Route>
               <Route path={`${path}/ticket`}>
-                <Ticket 
-                success={success}
-                setSuccess={setSuccess}
-                myTickets={myTickets}
-                setMyTickets={setMyTickets}
+                <Ticket
+                  success={success}
+                  setSuccess={setSuccess}
+                  myTickets={myTickets}
+                  setMyTickets={setMyTickets}
                 />
               </Route>
               <Route path={`${path}/myTicket`}>
                 <Myticket
-                myTickets={myTickets}
-                setMyTickets={setMyTickets}
-                tickets={tickets}
-                setConfirm={setConfirm}
+                  myTickets={myTickets}
+                  setMyTickets={setMyTickets}
+                  tickets={tickets}
+                  setConfirm={setConfirm}
                 />
               </Route>
-              
+
               <ManagerRoute path={`${path}/assign`}>
-                <AssignTicket 
-                users={users}
-                tickets={tickets}
-                
-                setTickets={setTickets}
-                setConfirm={setConfirm}
+                <AssignTicket
+                  users={users}
+                  tickets={tickets}
+                  setTickets={setTickets}
+                  setConfirm={setConfirm}
                 />
               </ManagerRoute>
             </Switch>

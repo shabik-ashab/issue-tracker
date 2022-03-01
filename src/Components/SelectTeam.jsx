@@ -5,7 +5,7 @@ import Select from "react-select";
 import useAuth from "../hooks/useAuth";
 
 export default function SelectTeam(props) {
-  const { users,logOut } = useAuth();
+  const { users, logOut } = useAuth();
   const [selectedOption, setSelectedOption] = useState(null);
   const [loginData, setLoginData] = React.useState(props.loginData);
 
@@ -27,25 +27,23 @@ export default function SelectTeam(props) {
   for (let i = 0; i < user.length; i++) {
     data.push({ label: user[i], value: user[i] });
   }
-  const handleTeamConfirm = () =>{
-    
-    fetch('http://localhost:5000/users/role', {
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json'
-            },
-           body: JSON.stringify(loginData),
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.modifiedCount) {
-                    console.log(data);
-                    history.push('/dash')
-                    // setSuccess(true);
-                }
-            })
-
-  }
+  const handleTeamConfirm = () => {
+    fetch("https://sleepy-lowlands-62924.herokuapp.com/users/role", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount) {
+          console.log(data);
+          history.push("/dash");
+          // setSuccess(true);
+        }
+      });
+  };
 
   return (
     <div className="App">
@@ -55,14 +53,14 @@ export default function SelectTeam(props) {
         options={data}
         onBlur={handleOnBlur}
       />
-      <Box sx={{ flexDirection: 'row',mt:3 }}>
-                <Button sx={{mr:2 }} onClick={handleTeamConfirm} variant="contained">
-              confirm
-            </Button>
-            <Button onClick={()=>logOut(history)} variant="contained">
-              logout
-            </Button>
-            </Box>
+      <Box sx={{ flexDirection: "row", mt: 3 }}>
+        <Button sx={{ mr: 2 }} onClick={handleTeamConfirm} variant="contained">
+          confirm
+        </Button>
+        <Button onClick={() => logOut(history)} variant="contained">
+          logout
+        </Button>
+      </Box>
     </div>
   );
 }

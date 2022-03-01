@@ -1,24 +1,7 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
-import { Link, Route, Switch } from 'react-router-dom';
-import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
 import useAuth from "../../hooks/useAuth";
-import AssignTicketDetails from './AssignTicketDetails';
-import Modal from '@mui/material/Modal';
-import AddComment from "./AddComment";
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'white',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
 
 
 const Team = ({ users,tickets }) => {
@@ -50,9 +33,9 @@ const Team = ({ users,tickets }) => {
     <>
       <Grid container spacing={4}>
          
-        <Grid item md={4} xs={12}>
+        <Grid item md={5} xs={12}>
             <Box>
-            <Box sx={{backgroundColor: "#e0e0e0",m:1,p:2,width:'70%'}} >
+            <Box sx={{backgroundColor: "#e0e0e0",m:1,p:2,width:'50%'}} >
                All Tickets: {ticketCount}
                <Typography>
                 Completed:  {Progresscount}
@@ -69,7 +52,7 @@ const Team = ({ users,tickets }) => {
          <Box>
               {
                     teamUsers.map((user) => (
-                        <Box sx={{backgroundColor: "#e0e0e0",m:1,p:2,width:'90%'}}>
+                        <Box sx={{backgroundColor: "#e0e0e0",m:1,p:2,width:'70%'}}>
                             {user.displayName}
                             <Typography>
                               Role: {user.role}
