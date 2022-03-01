@@ -1,6 +1,6 @@
 ## Folder Structure for components
 
-...
+```
 
 ├── AdminRoute
 │   └── ManagerRoute.js
@@ -26,7 +26,7 @@
 └── Skeleton
     └── DashboardSk.jsx
 
-...
+```
 
 
 
