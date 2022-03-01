@@ -1,7 +1,7 @@
 ## Folder Structure for components
 
 ...
-.
+
 ├── AdminRoute
 │   └── ManagerRoute.js
 ├── Choose.jsx
@@ -25,6 +25,7 @@
 ├── SelectTeam.jsx
 └── Skeleton
     └── DashboardSk.jsx
+
 ...
 
 
